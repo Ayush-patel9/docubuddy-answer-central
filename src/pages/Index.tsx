@@ -1,15 +1,19 @@
 import { useNavigate } from "react-router-dom";
+import DarkVeil from "./DarkVeil";
 import { useState, useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
-import { Bot, FileSearch, Users, Zap } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Bot, FileSearch, Users, Zap, LogOut } from "lucide-react";
 import { QuickActions } from "@/components/QuickActions";
 import { NotionDocuments } from "@/components/NotionDocuments";
 import { NotionProvider } from "@/contexts/NotionContext";
+import { useAuth } from "@/contexts/AuthContext";
 import Chat from "@/Chat"; // ✅ Your merged component
 
 const Index = () => {
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -20,8 +24,29 @@ const Index = () => {
     }
   }, [darkMode]);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+    <div className="relative min-h-screen bg-gradient-to-br from-background to-muted flex flex-col justify-between">
+      {/* Animated Live Wallpaper Background */}
+      {darkMode ? (
+        <div className="absolute inset-0 -z-10 w-full h-full">
+          <DarkVeil />
+        </div>
+      ) : (
+        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div className="absolute top-10 left-10 w-32 h-32 bg-primary/30 rounded-full animate-float"></div>
+          <div className="absolute bottom-20 right-20 w-40 h-40 bg-secondary/30 rounded-full animate-bounce-soft"></div>
+          <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-accent/30 rounded-full animate-wiggle"></div>
+        </div>
+      )}
       {/* Header */}
       <header className="border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
         <div className="container mx-auto px-4 py-4">
@@ -59,21 +84,42 @@ const Index = () => {
                 <Switch checked={darkMode} onCheckedChange={setDarkMode} />
                 <span className="text-xs text-muted-foreground">Dark</span>
               </div>
-                  {/* Login/Sign Up Buttons */}
-                  <div className="flex gap-2 ml-4">
-                    <button
-                      onClick={() => navigate('/login')}
-                      className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80"
+              
+              {/* Authentication Buttons */}
+              <div className="flex gap-2 ml-4">
+                {user ? (
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted-foreground">
+                      {user.email}
+                    </span>
+                    <Button
+                      onClick={handleLogout}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center gap-2"
                     >
-                      Login
-                    </button>
-                    <button
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <>
+                    <Button
+                      onClick={() => navigate('/signin')}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Sign In
+                    </Button>
+                    <Button
                       onClick={() => navigate('/signup')}
-                      className="px-4 py-2 bg-secondary text-primary rounded-md border border-primary hover:bg-secondary/80"
+                      size="sm"
                     >
                       Sign Up
-                    </button>
-                  </div>
+                    </Button>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </div>
