@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -10,6 +11,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 
 const ProfilePage: React.FC = () => {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
@@ -137,7 +139,16 @@ const ProfilePage: React.FC = () => {
             </div>
           </form>
           <div className="flex justify-center mt-8">
-            <Button onClick={logout} variant="outline" className="text-blue-700 border-blue-700 dark:text-blue-300 dark:border-blue-300">Logout</Button>
+            <Button
+              onClick={async () => {
+                await logout();
+                navigate("/");
+              }}
+              variant="outline"
+              className="text-blue-700 border-blue-700 dark:text-blue-300 dark:border-blue-300"
+            >
+              Logout
+            </Button>
           </div>
           {showToast && (
             <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 bg-blue-700 text-white px-6 py-3 rounded shadow-lg z-50 animate-fade-in">
