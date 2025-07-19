@@ -20,7 +20,7 @@ const Index = () => {
                 <Bot className="w-6 h-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-foreground">DocuBuddy</h1>
+                <h1 className="text-xl font-bold text-foreground">Fetchly</h1>
                 <p className="text-sm text-muted-foreground">Your Internal AI Assistant</p>
               </div>
             </div>
@@ -43,6 +43,21 @@ const Index = () => {
               <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
                 Online
               </Badge>
+                  {/* Login/Sign Up Buttons */}
+                  <div className="flex gap-2 ml-4">
+                    <button
+                      onClick={() => navigate('/login')}
+                      className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/80"
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => navigate('/signup')}
+                      className="px-4 py-2 bg-secondary text-primary rounded-md border border-primary hover:bg-secondary/80"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
             </div>
           </div>
         </div>
@@ -54,9 +69,7 @@ const Index = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-4">
             <QuickActions onQuestionSelect={(q) => {}} />
-            <NotionProvider>
-              <NotionDocuments />
-            </NotionProvider>
+            {/* NotionDocuments removed from sidebar. Now only accessible via button/tab. */}
             <button
               onClick={() => navigate("/notion")}
               className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mt-4"
