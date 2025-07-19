@@ -1,0 +1,8 @@
+Backend Stack:
+
+- FastAPI with async endpoints
+- Whisper for voice-to-text
+- LangChain + RAG for context-aware feedback
+- Redis cache for transcript storage
+
+Latency target: < 1.5s per message

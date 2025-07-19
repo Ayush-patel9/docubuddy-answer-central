@@ -1,0 +1,11 @@
+Title: AI Interview Coach - PRD
+Date: July 15, 2025
+Owner: Product Manager
+
+Summary:
+The AI Interview Coach will simulate mock interviews using AI avatars. It will give real-time feedback on tone, speed, and expression. Users can upload resumes, select interview types (tech, HR, pitch), and receive a full report after the session.
+
+Goals:
+- Improve candidate interview readiness
+- Provide analytics per session
+- Include mock investor pitch option

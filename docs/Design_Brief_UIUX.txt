@@ -1,0 +1,9 @@
+Project: Real-Time Interview UI
+
+Goals:
+- Clean layout
+- Animated avatars
+- Adaptive hints on left panel
+
+Tools:
+- Figma, Framer Motion, Tailwind

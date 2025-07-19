@@ -188,11 +188,11 @@ export const NotionDocuments = () => {
                 Loading document content...
               </div>
             ) : selectedDocument?.content ? (
-              <div className="p-4 prose prose-sm max-w-none max-h-[300px] overflow-y-auto">
-              {selectedDocument.content.split('\n').map((paragraph, idx) => (
-                paragraph ? <p key={idx}>{paragraph}</p> : null
-              ))}
-            </div>
+              <div className="p-4 prose prose-sm max-w-none">
+                {selectedDocument.content.split('\n').map((paragraph, idx) => (
+                  paragraph ? <p key={idx}>{paragraph}</p> : null
+                ))}
+              </div>
             ) : (
               <div className="p-4 text-center text-muted-foreground">
                 No content available for this document.
