@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Bot, FileSearch, Users, Zap, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import Chat from "@/Chat"; // ✅ Your merged component
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const navigate = useNavigate();
@@ -148,6 +149,9 @@ const Index = () => {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
