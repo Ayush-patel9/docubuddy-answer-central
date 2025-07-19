@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Bot, FileSearch, Users, Zap } from "lucide-react";
 import { QuickActions } from "@/components/QuickActions";
@@ -8,6 +10,15 @@ import Chat from "@/Chat"; // ✅ Your merged component
 
 const Index = () => {
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [darkMode]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted">
@@ -43,6 +54,11 @@ const Index = () => {
               <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
                 Online
               </Badge>
+              {/* Dark Theme Toggle */}
+              <div className="flex items-center gap-2 ml-4">
+                <Switch checked={darkMode} onCheckedChange={setDarkMode} />
+                <span className="text-xs text-muted-foreground">Dark</span>
+              </div>
                   {/* Login/Sign Up Buttons */}
                   <div className="flex gap-2 ml-4">
                     <button
