@@ -5,7 +5,6 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bot, FileSearch, Users, Zap, LogOut } from "lucide-react";
-import { QuickActions } from "@/components/QuickActions";
 import { NotionDocuments } from "@/components/NotionDocuments";
 import { NotionProvider } from "@/contexts/NotionContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -130,7 +129,6 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)]">
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-4">
-            <QuickActions onQuestionSelect={(q) => {}} />
             {/* NotionDocuments removed from sidebar. Now only accessible via button/tab. */}
             <button
               onClick={() => navigate("/notion")}
