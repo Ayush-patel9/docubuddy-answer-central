@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const googleDriveService = require('./googleDriveService');
 require('dotenv').config();
 
 const app = express();
@@ -78,8 +79,89 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Proxy server is running' });
 });
 
+// Google Drive API Routes
+app.get('/api/drive/files', async (req, res) => {
+  try {
+    console.log('Fetching Google Drive files...');
+    const { page, query, pageSize = 20 } = req.query;
+    
+    const options = {
+      pageSize: parseInt(pageSize),
+      ...(query && { query }),
+      ...(page && { pageToken: page })
+    };
+
+    const result = await googleDriveService.listFiles(options);
+    
+    res.json({
+      success: true,
+      data: result,
+      apiInitialized: googleDriveService.isInitialized()
+    });
+  } catch (error) {
+    console.error('Error fetching Google Drive files:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch Google Drive files',
+      details: error.message,
+      apiInitialized: googleDriveService.isInitialized()
+    });
+  }
+});
+
+app.get('/api/drive/files/:fileId/content', async (req, res) => {
+  try {
+    const { fileId } = req.params;
+    console.log(`Fetching content for file: ${fileId}`);
+    
+    const result = await googleDriveService.getFileContent(fileId);
+    
+    res.json({
+      success: true,
+      data: result
+    });
+  } catch (error) {
+    console.error(`Error fetching file content for ${req.params.fileId}:`, error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch file content',
+      details: error.message
+    });
+  }
+});
+
+app.get('/api/drive/search', async (req, res) => {
+  try {
+    const { q } = req.query;
+    
+    if (!q) {
+      return res.status(400).json({
+        success: false,
+        error: 'Search query is required'
+      });
+    }
+
+    console.log(`Searching Google Drive files for: ${q}`);
+    const result = await googleDriveService.searchFiles(q);
+    
+    res.json({
+      success: true,
+      data: result,
+      query: q
+    });
+  } catch (error) {
+    console.error('Error searching Google Drive files:', error.message);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to search Google Drive files',
+      details: error.message
+    });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Proxy server running on http://localhost:${PORT}`);
   console.log(`Using Notion API Key: ${NOTION_API_KEY ? 'Configured ✓' : 'Missing ✗'}`);
+  console.log(`Google Drive API: ${googleDriveService.isInitialized() ? 'Initialized ✓' : 'Using Mock Data ⚠️'}`);
 });

@@ -9,6 +9,7 @@ import { ChatInput } from "@/components/ChatInput";
 import { NotionDocuments } from "@/components/NotionDocuments";
 import { NotionProvider } from "@/contexts/NotionContext";
 import { Bot, FileSearch, Users, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 interface Message {
   id: string;
@@ -28,6 +29,7 @@ const Index = () => {
     }
   ]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSendMessage = async (content: string) => {
     const userMessage: Message = {
@@ -150,6 +152,20 @@ const Index = () => {
             <NotionProvider>
               <NotionDocuments />
             </NotionProvider>
+            {/* Notion Button */}
+            <button
+              onClick={() => navigate("/notion")}
+              className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mt-4"
+            >
+              View All Notion Files
+            </button>
+            {/* Google Drive Button */}
+            <button
+              onClick={() => navigate("/drive")}
+              className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 mt-2"
+            >
+              View Google Drive Files
+            </button>
           </div>
 
           {/* Main Chat Area */}

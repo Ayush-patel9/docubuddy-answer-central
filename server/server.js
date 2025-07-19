@@ -9,6 +9,9 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
+// Import Google Drive routes
+const driveRoutes = require('./driveRoutes');
+
 const NOTION_API_KEY = process.env.NOTION_API_KEY;
 const NOTION_API_BASE_URL = 'https://api.notion.com/v1';
 
@@ -55,6 +58,30 @@ app.get('/api/blocks/:id/children', async (req, res) => {
     res.status(error.response ? error.response.status : 500).json({ error: 'Failed to fetch Notion block children' });
   }
 });
+
+app.get('/api/notion/files', async (req, res) => {
+  try {
+    const response = await notion.post('/search', {
+      query: '',
+      filter: {
+        property: 'object',
+        value: 'page',
+      },
+    });
+    const files = response.data.results.map((page) => ({
+      id: page.id,
+      name: page.properties.title ? page.properties.title.title[0].text.content : 'Untitled',
+      url: page.url,
+    }));
+    res.json(files);
+  } catch (error) {
+    console.error('Error fetching Notion files:', error.response ? error.response.data : error.message);
+    res.status(error.response ? error.response.status : 500).json({ error: 'Failed to fetch Notion files' });
+  }
+});
+
+// Initialize Google Drive routes
+driveRoutes(app);
 
 app.listen(port, () => {
   console.log(`Proxy server listening at http://localhost:${port}`);
