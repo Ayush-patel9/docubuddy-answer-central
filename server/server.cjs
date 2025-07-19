@@ -9,14 +9,14 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-<<<<<<< HEAD:server/server.cjs
-const NOTION_API_KEY = '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'; // <-- Replace with your actual key
-=======
+
+// const NOTION_API_KEY = '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'; // <-- Replace with your actual key
+
 // Import Google Drive routes
 const driveRoutes = require('./driveRoutes');
 
 const NOTION_API_KEY = process.env.NOTION_API_KEY;
->>>>>>> e400cc260ece5b3f4f6b92dd87fb10af1d1559df:server/server.js
+
 const NOTION_API_BASE_URL = 'https://api.notion.com/v1';
 
 if (!NOTION_API_KEY) {

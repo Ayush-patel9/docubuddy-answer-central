@@ -12,7 +12,7 @@ import DrivePage from "./pages/DrivePage";
 import OAuth2Callback from "./pages/OAuth2Callback";
 import SignUpPage from "./pages/SignUpPage";
 import SignInPage from "./pages/SignInPage";
-import Chat from "./Chat"; // ✅ corrected path if Chat.tsx is in pages folder
+import Chat from "./Chat"; 
 
 const queryClient = new QueryClient();
 

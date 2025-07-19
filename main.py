@@ -47,7 +47,7 @@ def load_documents_from_folder(folder_path):
     return all_docs
 
 # ---- INIT ----
-docs_folder = "C:\docubuddy-answer-central\docs"
+docs_folder = "/Users/pulkitpandey/Desktop/AI/docubuddy-answer-central/docs"
 documents = load_documents_from_folder(docs_folder)
 if not documents:
     raise ValueError("No valid documents loaded.")
