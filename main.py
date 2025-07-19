@@ -71,14 +71,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-class Query(BaseModel):
-    query: str
+class Message(BaseModel):
+    message: str
 
-@app.post("/multi_query")
-async def multi_query(q: Query):
+@app.post("/chat")
+async def chat(msg: Message):
     try:
-        relevant_docs = vectorstore.similarity_search(q.query)
-        answer = chain.run(input_documents=relevant_docs, question=q.query)
-        return {"answer": answer}
+        relevant_docs = vectorstore.similarity_search(msg.message)
+        answer = chain.run(input_documents=relevant_docs, question=msg.message)
+        return {"reply": answer}
     except Exception as e:
-        return {"answer": f"❌ Error: {str(e)}"}
+        return {"reply": f"❌ Error: {str(e)}"}
+
