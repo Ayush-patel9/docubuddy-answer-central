@@ -6,7 +6,6 @@ import "./Chat.css";
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>([]);
   const [input, setInput] = useState("");
-  const [isDark, setIsDark] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
 
@@ -40,16 +39,9 @@ const Chat: React.FC = () => {
   }, [messages]);
 
   return (
-    <div className={`chat-container ${isDark ? "dark" : ""}`}>
-      <div className="chat-header">
-        <h1>⚡ AI Chat</h1>
-        <button onClick={() => setIsDark(!isDark)} className="toggle-btn">
-          {isDark ? "🌞 Light" : "🌙 Dark"}
-        </button>
-      </div>
-
+    <div className="chat-container">
       <div className="chat-box" ref={chatRef}>
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {messages.map((msg, idx) => (
             <motion.div
               key={idx}

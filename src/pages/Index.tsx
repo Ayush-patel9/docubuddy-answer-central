@@ -1,25 +1,250 @@
+import './index.css';
+
 import { useNavigate } from "react-router-dom";
-import DarkVeil from "./DarkVeil";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Bot, FileSearch, Users, Zap, LogOut } from "lucide-react";
+import { Bot, FileSearch, Users, LogOut, Bell, X, Clock, FileText, FolderOpen, Trash2, Settings, Brain, Sparkles, ChevronRight, TrendingUp, Zap, Database, Network } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import Chat from "@/Chat"; // ✅ Your merged component
+import Chat from "@/Chat";
+
+// Advanced Magnetic Cursor Component
+const MagneticCursor = () => {
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setCursorPos({ x: e.clientX, y: e.clientY });
+    };
+
+    const handleMouseEnter = () => setIsHovering(true);
+    const handleMouseLeave = () => setIsHovering(false);
+
+    // Add event listeners to magnetic elements
+    const magneticElements = document.querySelectorAll('.magnetic');
+    magneticElements.forEach(el => {
+      el.addEventListener('mouseenter', handleMouseEnter);
+      el.addEventListener('mouseleave', handleMouseLeave);
+    });
+
+    document.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      magneticElements.forEach(el => {
+        el.removeEventListener('mouseenter', handleMouseEnter);
+        el.removeEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+  }, []);
+
+  return (
+    <>
+      <div 
+        className="magnetic-cursor"
+        style={{
+          left: `${cursorPos.x}px`,
+          top: `${cursorPos.y}px`,
+          transform: `scale(${isHovering ? 1.5 : 1})`
+        }}
+      />
+      <div 
+        className="magnetic-cursor-trail"
+        style={{
+          left: `${cursorPos.x}px`,
+          top: `${cursorPos.y}px`
+        }}
+      />
+    </>
+  );
+};
+
+// Advanced Floating Geometry System
+const FloatingGeometrySystem = () => {
+  const geometryRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (geometryRef.current) {
+        const scrolled = window.pageYOffset;
+        const parallax = scrolled * 0.2;
+        geometryRef.current.style.transform = `translateY(${parallax}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <div ref={geometryRef} className="floating-geometry-system">
+      {/* Floating Geometric Shapes */}
+      <div className="floating-geometry triangle-1 animate-float-complex-1" />
+      <div className="floating-geometry circle-1 animate-float-complex-2" />
+      <div className="floating-geometry square-1 animate-float-complex-3" />
+      <div className="floating-geometry hexagon-1 animate-float-complex-4" />
+      <div className="floating-geometry diamond-1 animate-float-complex-5" />
+      <div className="floating-geometry triangle-2 animate-float-complex-6" />
+      <div className="floating-geometry circle-2 animate-float-complex-7" />
+      
+      {/* Grid Pattern Overlay */}
+      <div className="grid-pattern animate-grid-pulse" />
+      
+      {/* Scanning Lines */}
+      <div className="scan-line scan-horizontal animate-scan-h" />
+      <div className="scan-line scan-vertical animate-scan-v" />
+      
+      {/* Energy Orbs */}
+      <div className="energy-orb orb-1 animate-orb-path-1" />
+      <div className="energy-orb orb-2 animate-orb-path-2" />
+      <div className="energy-orb orb-3 animate-orb-path-3" />
+    </div>
+  );
+};
+
+// Staggered Entry Animation Component
+const StaggeredElements = ({ children, delay = 0 }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), delay);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [delay]);
+
+  return (
+    <div 
+      ref={ref}
+      className={`staggered-element ${isVisible ? 'animate-stagger-in' : ''}`}
+    >
+      {children}
+    </div>
+  );
+};
+
+// 3D Tilt Wrapper Component
+const TiltWrapper = ({ children, intensity = 10 }) => {
+  const tiltRef = useRef(null);
+
+  useEffect(() => {
+    const element = tiltRef.current;
+    if (!element) return;
+
+    const handleMouseMove = (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+      
+      const rotateX = (y - centerY) / centerY * intensity;
+      const rotateY = (centerX - x) / centerX * intensity;
+      
+      element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    };
+
+    const handleMouseLeave = () => {
+      element.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+    };
+
+    element.addEventListener('mousemove', handleMouseMove);
+    element.addEventListener('mouseleave', handleMouseLeave);
+
+    return () => {
+      element.removeEventListener('mousemove', handleMouseMove);
+      element.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, [intensity]);
+
+  return (
+    <div ref={tiltRef} className="tilt-wrapper">
+      {children}
+    </div>
+  );
+};
+
+const professionalNotifications = [
+  {
+    id: 1,
+    type: 'ai-insight',
+    fileName: 'AI Analysis: Employee Handbook patterns detected',
+    time: '30s ago',
+    icon: Brain,
+    category: 'AI Insights',
+    priority: 'high',
+    isAI: true
+  },
+  {
+    id: 2,
+    type: 'neural-update',
+    fileName: 'Marketing Strategy v4.2 - Analysis Complete',
+    time: '3m ago',
+    icon: Network,
+    category: 'Documents',
+    priority: 'medium'
+  },
+  {
+    id: 3,
+    type: 'data-sync',
+    fileName: 'API Documentation updated successfully',
+    time: '8m ago',
+    icon: Database,
+    category: 'Sync',
+    priority: 'low'
+  },
+  {
+    id: 4,
+    type: 'system-update',
+    fileName: 'Design System Guidelines synchronized',
+    time: '15m ago',
+    icon: Settings,
+    category: 'System',
+    priority: 'low'
+  }
+];
 
 const Index = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState(professionalNotifications);
+  const [unreadCount, setUnreadCount] = useState(3);
 
   useEffect(() => {
+    document.documentElement.classList.remove("light", "dark");
     if (darkMode) {
       document.documentElement.classList.add("dark");
     } else {
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.add("light");
     }
   }, [darkMode]);
+
+  const handleThemeToggle = () => {
+    if (!document.startViewTransition) {
+      setDarkMode(!darkMode);
+      return;
+    }
+
+    document.startViewTransition(() => {
+      setDarkMode(!darkMode);
+    });
+  };
 
   const handleLogout = async () => {
     try {
@@ -30,126 +255,406 @@ const Index = () => {
     }
   };
 
+  const getNotificationIcon = (type: string) => {
+    const iconMap = {
+      'ai-insight': '🧠',
+      'neural-update': '🔗',
+      'data-sync': '💾',
+      'system-update': '⚙️',
+      'added': '✨',
+      'updated': '🔄'
+    };
+    return iconMap[type] || '📄';
+  };
+
+  const getNotificationStyle = (priority: string, isAI: boolean = false) => {
+    if (isAI) {
+      return darkMode 
+        ? 'border-l-accent-teal bg-gradient-to-r from-accent-teal/10 to-transparent ai-glow-dark'
+        : 'border-l-accent-purple bg-gradient-to-r from-accent-purple/15 to-transparent ai-glow-light';
+    }
+    const darkStyleMap = {
+      'high': 'border-l-accent-orange bg-gradient-to-r from-accent-orange/10 to-transparent',
+      'medium': 'border-l-accent-teal bg-gradient-to-r from-accent-teal/8 to-transparent',
+      'low': 'border-l-neutral-400 bg-gradient-to-r from-neutral-400/5 to-transparent'
+    };
+    const lightStyleMap = {
+      'high': 'border-l-accent-red bg-gradient-to-r from-accent-red/12 to-transparent',
+      'medium': 'border-l-accent-blue bg-gradient-to-r from-accent-blue/10 to-transparent',
+      'low': 'border-l-neutral-400 bg-gradient-to-r from-neutral-400/8 to-transparent'
+    };
+    return darkMode ? darkStyleMap[priority] || darkStyleMap['medium'] : lightStyleMap[priority] || lightStyleMap['medium'];
+  };
+
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-background to-muted flex flex-col justify-between">
-      {/* Animated Live Wallpaper Background */}
-      {darkMode ? (
-        <div className="absolute inset-0 -z-10 w-full h-full">
-          <DarkVeil />
+    <div className={`relative min-h-screen font-professional overflow-hidden transition-all duration-1000 ${
+      darkMode ? 'bg-dark-primary' : 'bg-light-primary'
+    } animate-fade-in-smooth`}>
+      
+      {/* Magnetic Cursor */}
+      <MagneticCursor />
+      
+      {/* Advanced Background Systems */}
+      <FloatingGeometrySystem />
+      
+      {/* Subtle particle background */}
+      <div className="absolute inset-0 -z-20 overflow-hidden pointer-events-none">
+        <div className="quantum-field">
+          {Array.from({length: 20}).map((_, i) => (
+            <div 
+              key={i}
+              className={`quantum-particle particle-variant-${(i % 4) + 1}`}
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 15}s`,
+                animationDuration: `${12 + Math.random() * 8}s`
+              }}
+            />
+          ))}
         </div>
-      ) : (
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-10 left-10 w-32 h-32 bg-primary/30 rounded-full animate-float"></div>
-          <div className="absolute bottom-20 right-20 w-40 h-40 bg-secondary/30 rounded-full animate-bounce-soft"></div>
-          <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-accent/30 rounded-full animate-wiggle"></div>
-        </div>
-      )}
-      {/* Header */}
-      <header className="border-b bg-card/95 backdrop-blur supports-[backdrop-filter]:bg-card/60">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                <Bot className="w-6 h-6 text-primary-foreground" />
-              </div>
+      </div>
+      
+      {/* Header with Staggered Animation */}
+      <StaggeredElements delay={0}>
+        <header className={`w-full border-b backdrop-blur-xl p-4 flex items-center justify-between shadow-professional animate-slide-down-smooth relative z-50 ${
+          darkMode 
+            ? 'border-dark-border bg-dark-glass' 
+            : 'border-light-border bg-light-glass'
+        }`}>
+          <StaggeredElements delay={200}>
+            <div className="flex items-center gap-4">
+              <TiltWrapper intensity={8}>
+                <div className={`logo-container animate-professional-pulse magnetic ${
+                  darkMode ? 'bg-dark-accent-container' : 'bg-light-accent-container'
+                }`}>
+                  <Bot className={`w-8 h-8 ${darkMode ? 'text-accent-teal' : 'text-accent-purple'}`} />
+                </div>
+              </TiltWrapper>
               <div>
-                <h1 className="text-xl font-bold text-foreground">Fetchly</h1>
-                <p className="text-sm text-muted-foreground">Your Internal AI Assistant</p>
+                <h1 className={`ml-2 font-bold text-3xl tracking-wide magnetic ${
+                  darkMode ? 'professional-text-dark' : 'professional-text-light'
+                }`}>
+                  Fetchly AI
+                </h1>
+                <p className={`ml-2 text-sm font-mono ${
+                  darkMode ? 'text-neutral-300' : 'text-neutral-600'
+                }`}>
+                  Neural Documentation Intelligence System
+                </p>
               </div>
             </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                <div className="flex items-center gap-2">
-                  <FileSearch className="w-4 h-4" />
-                  <span>Smart Search</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  <span>Team Resources</span>
+          </StaggeredElements>
+          
+          <StaggeredElements delay={400}>
+            <div className="flex items-center gap-6">
+              {/* Status Indicators */}
+              <div className={`status-panel ${
+                darkMode ? 'bg-dark-glass' : 'bg-light-glass'
+              }`}>
+                <div className="flex items-center gap-4">
+                  <div className="status-indicator">
+                    <div className="w-2 h-2 rounded-full bg-accent-teal animate-pulse-subtle" />
+                    <span className={`text-xs font-mono ml-2 ${
+                      darkMode ? 'text-neutral-300' : 'text-neutral-600'
+                    }`}>
+                      AI ACTIVE
+                    </span>
+                  </div>
+                  <div className="status-indicator">
+                    <div className={`w-2 h-2 rounded-full animate-pulse-subtle ${
+                      darkMode ? 'bg-accent-orange' : 'bg-accent-blue'
+                    }`} />
+                    <span className={`text-xs font-mono ml-2 ${
+                      darkMode ? 'text-neutral-300' : 'text-neutral-600'
+                    }`}>
+                      SYNCED
+                    </span>
+                  </div>
                 </div>
               </div>
-              <Badge variant="secondary" className="bg-success/10 text-success border-success/20">
-                Online
-              </Badge>
-              {/* Dark Theme Toggle */}
+
+              {/* Notification Bell */}
+              <div className="relative">
+                <TiltWrapper intensity={6}>
+                  <button
+                    onClick={() => setShowNotifications(!showNotifications)}
+                    className="professional-button p-3 rounded-xl hover:scale-105 transition-all duration-300 magnetic"
+                  >
+                    <Bell className={`w-6 h-6 ${darkMode ? 'text-neutral-300' : 'text-neutral-700'}`} />
+                    {unreadCount > 0 && (
+                      <span className={`absolute -top-1 -right-1 text-white text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center animate-pulse-subtle professional-shadow ${
+                        darkMode ? 'bg-accent-orange' : 'bg-accent-red'
+                      }`}>
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
+                </TiltWrapper>
+
+                {/* Professional Notification Panel */}
+                {showNotifications && (
+                  <div className={`absolute right-0 top-full mt-3 w-[420px] rounded-2xl border backdrop-blur-xl z-50 max-h-[600px] overflow-hidden notification-panel animate-slide-in-professional ${
+                    darkMode 
+                      ? 'bg-dark-glass border-dark-border professional-shadow-dark' 
+                      : 'bg-light-glass border-light-border professional-shadow-light'
+                  }`}>
+                    <div className={`p-5 flex items-center justify-between ${
+                      darkMode ? 'bg-dark-header' : 'bg-light-header'
+                    }`}>
+                      <div className="flex items-center gap-3">
+                        <Sparkles className={`w-5 h-5 ${darkMode ? 'text-accent-teal' : 'text-accent-purple'}`} />
+                        <h3 className={`font-bold text-lg ${darkMode ? 'text-white' : 'text-neutral-900'}`}>
+                          System Intelligence Feed
+                        </h3>
+                      </div>
+                      <div className="flex gap-3">
+                        <button 
+                          onClick={() => setUnreadCount(0)}
+                          className={`text-xs font-mono px-3 py-1 rounded-lg transition-colors magnetic ${
+                            darkMode 
+                              ? 'text-accent-teal hover:text-accent-orange bg-accent-teal/10 hover:bg-accent-orange/10' 
+                              : 'text-accent-purple hover:text-accent-blue bg-accent-purple/10 hover:bg-accent-blue/10'
+                          }`}
+                        >
+                          Mark All Read
+                        </button>
+                        <button 
+                          onClick={() => setShowNotifications(false)}
+                          className={`transition-colors magnetic ${
+                            darkMode ? 'text-neutral-300 hover:text-white' : 'text-neutral-600 hover:text-neutral-900'
+                          }`}
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="max-h-96 overflow-y-auto professional-scrollbar">
+                      {notifications.map((notification, index) => (
+                        <StaggeredElements key={notification.id} delay={index * 100}>
+                          <div
+                            className={`notification-item p-4 border-l-4 transition-all duration-300 group cursor-pointer border-b ${
+                              getNotificationStyle(notification.priority, notification.isAI)
+                            } ${
+                              darkMode ? 'border-b-dark-border hover:bg-white/3' : 'border-b-light-border hover:bg-neutral-900/3'
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex items-start gap-3 flex-1">
+                                <TiltWrapper intensity={4}>
+                                  <div className="notification-professional-icon">
+                                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                                      notification.isAI 
+                                        ? darkMode ? 'ai-icon-container-dark' : 'ai-icon-container-light'
+                                        : darkMode ? 'bg-dark-micro' : 'bg-light-micro'
+                                    }`}>
+                                      <span className="text-lg">{getNotificationIcon(notification.type)}</span>
+                                    </div>
+                                  </div>
+                                </TiltWrapper>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 mb-2">
+                                    {notification.isAI && (
+                                      <span className={`ai-badge ${darkMode ? 'ai-badge-dark' : 'ai-badge-light'}`}>
+                                        AI
+                                      </span>
+                                    )}
+                                    <p className={`font-medium text-sm transition-colors ${
+                                      darkMode 
+                                        ? 'text-white group-hover:text-accent-teal' 
+                                        : 'text-neutral-900 group-hover:text-accent-purple'
+                                    }`}>
+                                      {notification.fileName}
+                                    </p>
+                                  </div>
+                                  <div className={`flex items-center gap-2 text-xs ${
+                                    darkMode ? 'text-neutral-400' : 'text-neutral-600'
+                                  }`}>
+                                    <Clock className="w-3 h-3" />
+                                    <span>{notification.time}</span>
+                                    <ChevronRight className="w-3 h-3" />
+                                    <span className={`font-mono ${
+                                      darkMode ? 'text-accent-orange' : 'text-accent-blue'
+                                    }`}>
+                                      {notification.category}
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </StaggeredElements>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <div className="flex items-center gap-2 ml-4">
-                <Switch checked={darkMode} onCheckedChange={setDarkMode} />
-                <span className="text-xs text-muted-foreground">Dark</span>
+                <Switch 
+                  checked={darkMode} 
+                  onCheckedChange={handleThemeToggle}
+                  className="professional-switch magnetic" 
+                />
+                <span className={`text-xs font-mono ${
+                  darkMode ? 'text-neutral-300' : 'text-neutral-600'
+                }`}>
+                  {darkMode ? 'Professional Dark' : 'Clean Light'}
+                </span>
               </div>
               
-              {/* Authentication Buttons */}
-              <div className="flex gap-2 ml-4">
+              <div className="flex gap-3 ml-4">
                 {user ? (
                   <div className="flex items-center gap-3">
                     <button
-                      className="text-sm text-muted-foreground underline hover:text-primary"
+                      className={`text-sm underline font-mono transition-colors magnetic ${
+                        darkMode 
+                          ? 'text-neutral-300 hover:text-accent-teal' 
+                          : 'text-neutral-600 hover:text-accent-purple'
+                      }`}
                       onClick={() => navigate('/profile')}
-                      title="View Profile"
                     >
                       {user.email}
                     </button>
-                    <Button
-                      onClick={handleLogout}
-                      variant="outline"
-                      size="sm"
-                      className="flex items-center gap-2"
-                    >
+                    <Button className="professional-button-outline magnetic">
                       <LogOut className="w-4 h-4" />
                       Logout
                     </Button>
                   </div>
                 ) : (
                   <>
-                    <Button
-                      onClick={() => navigate('/signin')}
-                      variant="outline"
-                      size="sm"
-                    >
+                    <Button className="professional-button-outline magnetic">
                       Sign In
                     </Button>
-                    <Button
-                      onClick={() => navigate('/signup')}
-                      size="sm"
-                    >
-                      Sign Up
+                    <Button className="professional-button-primary magnetic">
+                      Get Started
                     </Button>
                   </>
                 )}
               </div>
             </div>
-          </div>
-        </div>
-      </header>
+          </StaggeredElements>
+        </header>
+      </StaggeredElements>
 
-      {/* Layout */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 h-[calc(100vh-140px)]">
-          {/* Sidebar */}
-          <div className="lg:col-span-1 space-y-4">
-            {/* NotionDocuments removed from sidebar. Now only accessible via button/tab. */}
-            <button
-              onClick={() => navigate("/notion")}
-              className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 mt-4"
-            >
-              View All Notion Files
-            </button>
-            <button
-              onClick={() => navigate("/drive")}
-              className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 mt-2"
-            >
-              View Google Drive Files
-            </button>
-          </div>
+      {/* Main Content with Staggered Animations */}
+      <main className="container mx-auto py-12 flex flex-col lg:flex-row gap-10 relative z-10 px-6">
+        {/* Professional Sidebar */}
+        <StaggeredElements delay={600}>
+          <aside className="w-full lg:w-1/3 min-w-[320px] space-y-6">
+            <TiltWrapper intensity={5}>
+              <div className={`professional-card floating-professional-card p-6 magnetic ${
+                darkMode ? 'border-dark-border' : 'border-light-border'
+              }`}>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                    darkMode ? 'bg-dark-accent-container' : 'bg-light-accent-container'
+                  }`}>
+                    <Brain className={`w-6 h-6 ${darkMode ? 'text-accent-teal' : 'text-accent-purple'}`} />
+                  </div>
+                  <h3 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-neutral-900'}`}>
+                    Intelligence Hub
+                  </h3>
+                </div>
+                
+                <div className="space-y-3 mb-8">
+                  {notifications.slice(0, 3).map((notif, index) => (
+                    <StaggeredElements key={index} delay={800 + (index * 100)}>
+                      <div className={`notification-mini-professional flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer magnetic ${
+                        darkMode ? 'bg-white/3 hover:bg-white/6' : 'bg-neutral-900/5 hover:bg-neutral-900/8'
+                      }`}>
+                        <span className="text-sm">{getNotificationIcon(notif.type)}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className={`text-xs truncate ${
+                            darkMode ? 'text-neutral-300' : 'text-neutral-700'
+                          }`}>
+                            {notif.fileName}
+                          </p>
+                          <p className={`text-xs font-mono ${
+                            darkMode ? 'text-accent-orange' : 'text-accent-blue'
+                          }`}>
+                            {notif.time}
+                          </p>
+                        </div>
+                      </div>
+                    </StaggeredElements>
+                  ))}
+                </div>
 
-          {/* Main Chat */}
-          <div className="lg:col-span-3">
-            <Chat />
-          </div>
-        </div>
-      </div>
+                {/* Enhanced Action Buttons */}
+                <div className="space-y-4">
+                  <StaggeredElements delay={1200}>
+                    <TiltWrapper intensity={8}>
+                      <button
+                        onClick={() => navigate("/notion")}
+                        className={`professional-button-notion w-full py-4 font-bold tracking-wide rounded-xl transition-all duration-300 hover:scale-105 group magnetic`}
+                      >
+                        <div className="flex items-center justify-center gap-3 relative z-10">
+                          <FileText className="w-5 h-5" />
+                          <span>Notion Hub</span>
+                          <div className="professional-shine" />
+                        </div>
+                      </button>
+                    </TiltWrapper>
+                  </StaggeredElements>
+                  
+                  <StaggeredElements delay={1400}>
+                    <TiltWrapper intensity={8}>
+                      <button
+                        onClick={() => navigate("/drive")}
+                        className={`professional-button-drive w-full py-4 font-bold tracking-wide rounded-xl transition-all duration-300 hover:scale-105 group magnetic`}
+                      >
+                        <div className="flex items-center justify-center gap-3 relative z-10">
+                          <FolderOpen className="w-5 h-5" />
+                          <span>Drive Matrix</span>
+                          <div className="professional-shine" />
+                        </div>
+                      </button>
+                    </TiltWrapper>
+                  </StaggeredElements>
+                </div>
+              </div>
+            </TiltWrapper>
+          </aside>
+        </StaggeredElements>
+
+        {/* Main Chat Interface */}
+        <StaggeredElements delay={800}>
+          <section className="flex-1 relative">
+            <TiltWrapper intensity={3}>
+              <div className={`professional-card floating-professional-card2 p-8 min-h-[75vh] magnetic ${
+                darkMode ? 'border-dark-border' : 'border-light-border'
+              }`}>
+                <div className="mb-8">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`w-14 h-14 rounded-xl flex items-center justify-center ${
+                      darkMode ? 'bg-dark-accent-container' : 'bg-light-accent-container'
+                    }`}>
+                      <Sparkles className={`w-8 h-8 ${darkMode ? 'text-accent-teal' : 'text-accent-purple'}`} />
+                    </div>
+                    <div>
+                      <h2 className={`text-3xl font-bold mb-2 ${
+                        darkMode ? 'professional-text-dark' : 'professional-text-light'
+                      }`}>
+                        AI Chat Interface
+                      </h2>
+                      <p className={`font-mono text-sm ${
+                        darkMode ? 'text-neutral-300' : 'text-neutral-600'
+                      }`}>
+                        Ask anything about your team's documentation • Powered by AI
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <Chat />
+              </div>
+            </TiltWrapper>
+          </section>
+        </StaggeredElements>
+      </main>
     </div>
   );
-}
+};
 
 export default Index;
