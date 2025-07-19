@@ -6,7 +6,8 @@ import { Separator } from "@/components/ui/separator";
 import { ChatMessage } from "@/components/ChatMessage";
 import { QuickActions } from "@/components/QuickActions";
 import { ChatInput } from "@/components/ChatInput";
-import { DocumentStatus } from "@/components/DocumentStatus";
+import { NotionDocuments } from "@/components/NotionDocuments";
+import { NotionProvider } from "@/contexts/NotionContext";
 import { Bot, FileSearch, Users, Zap } from "lucide-react";
 
 interface Message {
@@ -44,27 +45,31 @@ const Index = () => {
       const responses: { [key: string]: { content: string; source?: string } } = {
         "refund": {
           content: "Our refund policy allows customers to request full refunds within 30 days of purchase for digital products, and 60 days for physical products. Refunds are processed within 5-7 business days. For subscription services, refunds are prorated based on unused time.",
-          source: "Employee Handbook - Section 4.2"
+          source: "Notion Documents - Policies"
         },
         "leave": {
           content: "To apply for leave: 1) Submit a request through the HR portal at least 2 weeks in advance, 2) Get approval from your direct manager, 3) For extended leave (>5 days), HR approval is also required. You can access the HR portal through the company intranet.",
-          source: "Leave Policies - HR Document"
+          source: "Notion Documents - HR Procedures"
         },
         "design": {
           content: "Design requests follow this approval chain: 1) Initial review by Design Team Lead, 2) Brand consistency check by Marketing Manager, 3) Final approval by Creative Director. For client-facing materials, additional approval from Account Manager is required.",
-          source: "Design Guidelines - Process Section"
+          source: "Notion Documents - Design Guidelines"
         },
         "branding": {
           content: "All brand assets are stored in our shared drive under 'Brand Assets > Current'. This includes logos, color palettes, fonts, and templates. You can also access them through the Brand Portal at brand.company.com using your company credentials.",
-          source: "Design Guidelines - Assets Section"
+          source: "Notion Documents - Brand Assets"
         },
         "working": {
           content: "Standard working hours are 9:00 AM to 6:00 PM, Monday through Friday. Flexible working arrangements are available with manager approval. Core collaboration hours when all team members should be available are 10:00 AM to 4:00 PM.",
-          source: "Employee Handbook - Section 2.1"
+          source: "Notion Documents - Company Handbook"
         },
         "support": {
           content: "For IT support: 1) Check the self-service IT portal first, 2) Submit a ticket through the help desk system, 3) For urgent issues, call the IT hotline at ext. 1234, 4) Emergency after-hours support is available at +1-555-0199.",
-          source: "IT Support Process - Quick Reference"
+          source: "Notion Documents - IT Procedures"
+        },
+        "notion": {
+          content: "Notion integration has been added successfully. You can now view, upload, and manage Notion documents directly from the sidebar. Click on 'Add Documents' to add new Notion pages using their URL.",
+          source: "Notion Documents - Integration Guide"
         }
       };
 
@@ -142,7 +147,9 @@ const Index = () => {
           {/* Sidebar */}
           <div className="lg:col-span-1 space-y-4">
             <QuickActions onQuestionSelect={handleQuestionSelect} />
-            <DocumentStatus />
+            <NotionProvider>
+              <NotionDocuments />
+            </NotionProvider>
           </div>
 
           {/* Main Chat Area */}

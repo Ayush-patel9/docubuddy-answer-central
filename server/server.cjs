@@ -9,7 +9,7 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-const NOTION_API_KEY = process.env.NOTION_API_KEY;
+const NOTION_API_KEY = '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'; // <-- Replace with your actual key
 const NOTION_API_BASE_URL = 'https://api.notion.com/v1';
 
 if (!NOTION_API_KEY) {
