@@ -5,8 +5,6 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bot, FileSearch, Users, Zap, LogOut } from "lucide-react";
-import { NotionDocuments } from "@/components/NotionDocuments";
-import { NotionProvider } from "@/contexts/NotionContext";
 import { useAuth } from "@/contexts/AuthContext";
 import Chat from "@/Chat"; // ✅ Your merged component
 
@@ -67,10 +65,6 @@ const Index = () => {
                   <span>Smart Search</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  <span>Instant Answers</span>
-                </div>
-                <div className="flex items-center gap-2">
                   <Users className="w-4 h-4" />
                   <span>Team Resources</span>
                 </div>
@@ -88,9 +82,13 @@ const Index = () => {
               <div className="flex gap-2 ml-4">
                 {user ? (
                   <div className="flex items-center gap-3">
-                    <span className="text-sm text-muted-foreground">
+                    <button
+                      className="text-sm text-muted-foreground underline hover:text-primary"
+                      onClick={() => navigate('/profile')}
+                      title="View Profile"
+                    >
                       {user.email}
-                    </span>
+                    </button>
                     <Button
                       onClick={handleLogout}
                       variant="outline"
@@ -152,6 +150,6 @@ const Index = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Index;
