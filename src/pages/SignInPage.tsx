@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { toast } from "@/hooks/use-toast";
 
 const SignInPage: React.FC = () => {
   const { signIn, signInWithGoogle } = useAuth();
@@ -23,6 +24,11 @@ const SignInPage: React.FC = () => {
 
     try {
       await signIn(email, password);
+      toast({
+        title: "Login Successful",
+        description: "Welcome back!",
+        variant: "default"
+      });
       navigate('/');
     } catch (error: any) {
       setError(error.message);

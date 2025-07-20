@@ -7,6 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { toast } from "@/hooks/use-toast";
 
 const SignUpPage: React.FC = () => {
   const { signUp, signInWithGoogle } = useAuth();
@@ -35,6 +36,11 @@ const SignUpPage: React.FC = () => {
 
     try {
       await signUp(email, password);
+      toast({
+        title: "Login Successful",
+        description: "Welcome to DocuBuddy!",
+        variant: "default"
+      });
       navigate('/');
     } catch (error: any) {
       setError(error.message);
