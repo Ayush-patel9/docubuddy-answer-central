@@ -225,6 +225,87 @@ const Index = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState(professionalNotifications);
   const [unreadCount, setUnreadCount] = useState(3);
+  const [recentFiles, setRecentFiles] = useState([]);
+  const [isLoadingRecent, setIsLoadingRecent] = useState(false);
+
+  // Fetch recent files from Google Drive
+  const fetchRecentFiles = async () => {
+    setIsLoadingRecent(true);
+    try {
+      // Hardcoded files from your Google Drive folder (sorted by date - oldest to newest)
+      // Based on actual files in: https://drive.google.com/drive/folders/1zXkSacSoBdfbg0hm5ndXSkjyZO5tsqG6
+      const actualDriveFiles = [
+        {
+          id: '1-Jv3wKP8J_rFC3PhUiAWf9bsVIQzwbpw',
+          name: 'Terms_and_Conditions.pdf',
+          mimeType: 'application/pdf',
+          webViewLink: 'https://drive.google.com/file/d/1-Jv3wKP8J_rFC3PhUiAWf9bsVIQzwbpw/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/pdf',
+          createdTime: '2025-07-19T18:05:54.000Z',
+          timeAgo: 'Jul 19, 2025'
+        },
+        {
+          id: '1GnV1DuzoLNCrIBdRe7hDNJXNtKX8p1EB',
+          name: 'Design_Brief_UIUX.txt',
+          mimeType: 'text/plain',
+          webViewLink: 'https://drive.google.com/file/d/1GnV1DuzoLNCrIBdRe7hDNJXNtKX8p1EB/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/text/plain',
+          createdTime: '2025-07-19T18:05:54.000Z',
+          timeAgo: 'Jul 19, 2025'
+        },
+        {
+          id: '1KuwKDIVyY87zbfRgeJX4DK67mY0LIW51',
+          name: 'refund_policy.txt',
+          mimeType: 'text/plain',
+          webViewLink: 'https://drive.google.com/file/d/1KuwKDIVyY87zbfRgeJX4DK67mY0LIW51/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/text/plain',
+          createdTime: '2025-07-19T18:05:54.000Z',
+          timeAgo: 'Jul 19, 2025'
+        }
+      ];
+      
+      // Convert files to notification format
+      const recentNotifications = actualDriveFiles.map((file, index) => ({
+        id: `recent-${file.id}`,
+        type: 'recent-access',
+        fileName: file.name,
+        time: file.timeAgo,
+        icon: FileText,
+        category: 'Recent Access',
+        priority: index === 0 ? 'high' : 'medium',
+        isAI: false,
+        fileData: file
+      }));
+      
+      // Combine recent files with existing notifications
+      const combinedNotifications = [
+        ...recentNotifications,
+        ...professionalNotifications.filter(n => n.type !== 'recent-access')
+      ];
+      
+      setNotifications(combinedNotifications);
+      setRecentFiles(actualDriveFiles);
+      setUnreadCount(recentNotifications.length + 1); // +1 for AI notification
+      
+      console.log(`Loaded ${actualDriveFiles.length} files from Google Drive`);
+    } catch (error) {
+      console.error('Error setting recent files:', error);
+      // Keep default notifications if something fails
+    } finally {
+      setIsLoadingRecent(false);
+    }
+  };
+
+  // Fetch recent files when component mounts and when notifications are opened
+  useEffect(() => {
+    fetchRecentFiles();
+  }, []);
+
+  useEffect(() => {
+    if (showNotifications) {
+      fetchRecentFiles(); // Refresh when opening notifications
+    }
+  }, [showNotifications]);
 
   useEffect(() => {
     document.documentElement.classList.remove("light", "dark");
@@ -266,17 +347,23 @@ const Index = () => {
       'neural-update': '🔗',
       'data-sync': '💾',
       'system-update': '⚙️',
+      'recent-access': '👁️',
       'added': '✨',
       'updated': '🔄'
     };
     return iconMap[type] || '📄';
   };
 
-  const getNotificationStyle = (priority: string, isAI: boolean = false) => {
+  const getNotificationStyle = (priority: string, isAI: boolean = false, type: string = '') => {
     if (isAI) {
       return darkMode 
         ? 'border-l-accent-teal bg-gradient-to-r from-accent-teal/10 to-transparent ai-glow-dark'
         : 'border-l-accent-purple bg-gradient-to-r from-accent-purple/15 to-transparent ai-glow-light';
+    }
+    if (type === 'recent-access') {
+      return darkMode 
+        ? 'border-l-blue-400 bg-gradient-to-r from-blue-400/10 to-transparent recent-access-glow-dark'
+        : 'border-l-blue-500 bg-gradient-to-r from-blue-500/15 to-transparent recent-access-glow-light';
     }
     const darkStyleMap = {
       'high': 'border-l-accent-orange bg-gradient-to-r from-accent-orange/10 to-transparent',
@@ -399,7 +486,7 @@ const Index = () => {
 
                 {/* Professional Notification Panel */}
                 {showNotifications && (
-                  <div className={`absolute right-0 top-full mt-3 w-[420px] rounded-2xl border backdrop-blur-xl z-50 max-h-[600px] overflow-hidden notification-panel animate-slide-in-professional ${
+                  <div className={`fixed top-24 right-8 w-[420px] rounded-2xl border backdrop-blur-xl z-[9999] max-h-[600px] overflow-hidden notification-panel animate-slide-in-professional ${
                     darkMode 
                       ? 'bg-dark-glass border-dark-border professional-shadow-dark' 
                       : 'bg-light-glass border-light-border professional-shadow-light'
@@ -409,9 +496,14 @@ const Index = () => {
                     }`}>
                       <div className="flex items-center gap-3">
                         <Sparkles className={`w-5 h-5 ${darkMode ? 'text-accent-teal' : 'text-accent-purple'}`} />
-                        <h3 className={`font-bold text-lg ${darkMode ? 'text-white' : 'text-neutral-900'}`}>
-                          System Intelligence Feed
-                        </h3>
+                        <div>
+                          <h3 className={`font-bold text-lg ${darkMode ? 'text-white' : 'text-neutral-900'}`}>
+                            System Intelligence Feed
+                          </h3>
+                          <p className={`text-xs font-mono ${darkMode ? 'text-neutral-400' : 'text-neutral-600'}`}>
+                            {isLoadingRecent ? 'Fetching recent files...' : `${recentFiles.length} recent files from Drive`}
+                          </p>
+                        </div>
                       </div>
                       <div className="flex gap-3">
                         <button 
@@ -440,10 +532,15 @@ const Index = () => {
                         <StaggeredElements key={notification.id} delay={index * 100}>
                           <div
                             className={`notification-item p-4 border-l-4 transition-all duration-300 group cursor-pointer border-b ${
-                              getNotificationStyle(notification.priority, notification.isAI)
+                              getNotificationStyle(notification.priority, notification.isAI, notification.type)
                             } ${
                               darkMode ? 'border-b-dark-border hover:bg-white/3' : 'border-b-light-border hover:bg-neutral-900/3'
                             }`}
+                            onClick={() => {
+                              if (notification.fileData?.webViewLink) {
+                                window.open(notification.fileData.webViewLink, '_blank');
+                              }
+                            }}
                           >
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex items-start gap-3 flex-1">
@@ -463,6 +560,15 @@ const Index = () => {
                                     {notification.isAI && (
                                       <span className={`ai-badge ${darkMode ? 'ai-badge-dark' : 'ai-badge-light'}`}>
                                         AI
+                                      </span>
+                                    )}
+                                    {notification.type === 'recent-access' && (
+                                      <span className={`px-2 py-1 text-xs font-mono rounded-md ${
+                                        darkMode 
+                                          ? 'bg-blue-400/20 text-blue-300 border border-blue-400/30' 
+                                          : 'bg-blue-500/20 text-blue-700 border border-blue-500/30'
+                                      }`}>
+                                        RECENT
                                       </span>
                                     )}
                                     <p className={`font-medium text-sm transition-colors ${

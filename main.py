@@ -79,14 +79,29 @@ def download_file(service, file_id: str, destination: pathlib.Path) -> pathlib.P
 # ------------- DOCUMENT LOADING -------------
 def load_document(path: pathlib.Path):
     ext = path.suffix.lower()
-    if ext == ".pdf":
-        return PyPDFLoader(str(path)).load()
-    elif ext == ".txt":
-        return TextLoader(str(path)).load()
-    elif ext in (".xls", ".xlsx"):
-        return UnstructuredExcelLoader(str(path)).load()
-    else:
-        print(f"Unsupported {path.name} – skipped")
+    try:
+        if ext == ".pdf":
+            return PyPDFLoader(str(path)).load()
+        elif ext == ".txt":
+            # Try different encodings to handle Unicode issues
+            try:
+                return TextLoader(str(path), encoding='utf-8').load()
+            except UnicodeDecodeError:
+                try:
+                    return TextLoader(str(path), encoding='latin-1').load()
+                except Exception:
+                    try:
+                        return TextLoader(str(path), encoding='cp1252').load()
+                    except Exception:
+                        print(f"Failed to load {path.name} due to encoding issues – skipped")
+                        return []
+        elif ext in (".xls", ".xlsx"):
+            return UnstructuredExcelLoader(str(path)).load()
+        else:
+            print(f"Unsupported {path.name} – skipped")
+            return []
+    except Exception as e:
+        print(f"Error loading {path.name}: {str(e)} – skipped")
         return []
 
 def build_vectorstore_from_drive(folder_link: str):

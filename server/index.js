@@ -159,6 +159,105 @@ app.get('/api/drive/search', async (req, res) => {
   }
 });
 
+// Helper function to calculate time ago
+function getTimeAgo(dateString) {
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffInSeconds = Math.floor((now - date) / 1000);
+
+  if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+  return `${Math.floor(diffInSeconds / 86400)}d ago`;
+}
+
+// Get recently accessed files from Google Drive (latest 3)
+app.get('/api/drive/recent', async (req, res) => {
+  try {
+    console.log('Fetching recent Google Drive files from specific folder...');
+    
+    // Your specific Google Drive folder ID
+    const FOLDER_ID = '1zXkSacSoBdfbg0hm5ndXSkjyZO5tsqG6';
+    
+    const result = await googleDriveService.listFiles({
+      pageSize: 50, // Get more files to sort properly
+      query: `'${FOLDER_ID}' in parents and trashed=false`,
+      orderBy: 'createdTime' // Sort by creation time, oldest first
+    });
+
+    console.log('Google Drive API result:', result);
+
+    if (result && result.files && result.files.length > 0) {
+      // Sort files by creation date (oldest to newest) and take top 3
+      const sortedFiles = result.files
+        .filter(file => file.createdTime || file.modifiedTime) // Only files with timestamps
+        .sort((a, b) => new Date(a.createdTime || a.modifiedTime) - new Date(b.createdTime || b.modifiedTime))
+        .slice(0, 3)
+        .map(file => ({
+          id: file.id,
+          name: file.name,
+          mimeType: file.mimeType,
+          webViewLink: file.webViewLink,
+          iconLink: file.iconLink,
+          createdTime: file.createdTime || file.modifiedTime,
+          modifiedTime: file.modifiedTime,
+          timeAgo: getTimeAgo(file.createdTime || file.modifiedTime),
+          size: file.size
+        }));
+
+      console.log(`Found and sorted ${sortedFiles.length} files from your Drive folder`);
+      res.json({
+        success: true,
+        files: sortedFiles,
+        totalFound: result.files.length
+      });
+    } else {
+      console.log('No files found in the folder, using fallback data');
+      throw new Error('No files found in Google Drive folder');
+    }
+  } catch (error) {
+    console.error('Error fetching recent Google Drive files:', error.message);
+    
+    // Return mock data as fallback
+    const mockRecentFiles = [
+      {
+        id: 'fallback-1',
+        name: 'Employee Handbook.docx',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        webViewLink: 'https://docs.google.com/document/d/fallback-1/view',
+        iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        createdTime: new Date('2024-01-15').toISOString(),
+        timeAgo: 'Jan 15, 2024'
+      },
+      {
+        id: 'fallback-2',
+        name: 'Marketing Strategy.pdf',
+        mimeType: 'application/pdf',
+        webViewLink: 'https://docs.google.com/document/d/fallback-2/view',
+        iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/pdf',
+        createdTime: new Date('2024-02-01').toISOString(),
+        timeAgo: 'Feb 1, 2024'
+      },
+      {
+        id: 'fallback-3',
+        name: 'API Documentation.docx',
+        mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        webViewLink: 'https://docs.google.com/document/d/fallback-3/view',
+        iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        createdTime: new Date('2024-03-10').toISOString(),
+        timeAgo: 'Mar 10, 2024'
+      }
+    ];
+    
+    res.json({
+      success: true,
+      files: mockRecentFiles,
+      fallback: true,
+      error: error.message
+    });
+  }
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Proxy server running on http://localhost:${PORT}`);

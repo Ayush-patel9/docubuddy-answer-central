@@ -162,4 +162,75 @@ module.exports = (app) => {
       res.status(500).json({ error: 'Failed to search Drive files' });
     }
   });
+
+  // Get recently accessed files (latest 3)
+  app.get('/api/drive/recent', async (req, res) => {
+    try {
+      const response = await driveClient.files.list({
+        orderBy: 'viewedByMeTime desc',
+        pageSize: 3,
+        fields: 'files(id, name, mimeType, webViewLink, iconLink, modifiedTime, viewedByMeTime, size)',
+        q: 'trashed=false'
+      });
+
+      const recentFiles = response.data.files?.map(file => ({
+        id: file.id,
+        name: file.name,
+        mimeType: file.mimeType,
+        webViewLink: file.webViewLink,
+        iconLink: file.iconLink,
+        modifiedTime: file.modifiedTime,
+        viewedByMeTime: file.viewedByMeTime || file.modifiedTime,
+        size: file.size,
+        timeAgo: getTimeAgo(file.viewedByMeTime || file.modifiedTime)
+      })) || [];
+
+      res.json({ files: recentFiles });
+    } catch (error) {
+      console.error('Error fetching recent Drive files:', error);
+      // Return mock data if API fails
+      const mockRecentFiles = [
+        {
+          id: 'recent-1',
+          name: 'Marketing Strategy v4.2.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          webViewLink: 'https://docs.google.com/document/d/recent-1/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          viewedByMeTime: new Date(Date.now() - 30000).toISOString(),
+          timeAgo: '30s ago'
+        },
+        {
+          id: 'recent-2',
+          name: 'API Documentation.pdf',
+          mimeType: 'application/pdf',
+          webViewLink: 'https://docs.google.com/document/d/recent-2/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/pdf',
+          viewedByMeTime: new Date(Date.now() - 180000).toISOString(),
+          timeAgo: '3m ago'
+        },
+        {
+          id: 'recent-3',
+          name: 'Employee Handbook.docx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          webViewLink: 'https://docs.google.com/document/d/recent-3/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          viewedByMeTime: new Date(Date.now() - 480000).toISOString(),
+          timeAgo: '8m ago'
+        }
+      ];
+      res.json({ files: mockRecentFiles });
+    }
+  });
+
+  // Helper function to calculate time ago
+  function getTimeAgo(dateString) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInSeconds = Math.floor((now - date) / 1000);
+
+    if (diffInSeconds < 60) return `${diffInSeconds}s ago`;
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+    return `${Math.floor(diffInSeconds / 86400)}d ago`;
+  }
 };

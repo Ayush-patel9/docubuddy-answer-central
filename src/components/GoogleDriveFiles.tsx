@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { FileText, Image, Video, Music, Archive, File, Search, ExternalLink } from 'lucide-react';
+import { FileText, Image, Video, Music, Archive, File, Search, ExternalLink, FolderOpen } from 'lucide-react';
 import { useDrive } from '@/contexts/DriveContext';
 import { formatFileSize } from '@/lib/googleDriveService';
 
@@ -29,6 +29,24 @@ const getFileTypeColor = (mimeType: string) => {
 export const GoogleDriveFiles = () => {
   const { files, isLoading, error, refreshFiles, searchFiles } = useDrive();
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  
+  // Direct link to the Google Drive folder
+  const driveFolderLink = 'https://drive.google.com/drive/folders/1zXkSacSoBdfbg0hm5ndXSkjyZO5tsqG6';
+
+  // Sort files by modification date
+  const sortedFiles = useMemo(() => {
+    if (!files.length) return [];
+    
+    return [...files].sort((a, b) => {
+      const dateA = new Date(a.modifiedTime).getTime();
+      const dateB = new Date(b.modifiedTime).getTime();
+      
+      return sortDirection === 'asc' 
+        ? dateA - dateB  // oldest first
+        : dateB - dateA; // newest first
+    });
+  }, [files, sortDirection]);
 
   const handleSearch = async () => {
     if (searchQuery.trim()) {
@@ -36,6 +54,10 @@ export const GoogleDriveFiles = () => {
     } else {
       await refreshFiles();
     }
+  };
+
+  const toggleSortDirection = () => {
+    setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
   };
 
   const formatDate = (dateString: string) => {
@@ -74,10 +96,25 @@ export const GoogleDriveFiles = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>📁 Google Drive Files ({files.length})</span>
-          <Button onClick={refreshFiles} variant="outline" size="sm">
-            Refresh
-          </Button>
+          <span className="flex items-center gap-2">
+            📁 Google Drive Files ({files.length})
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => window.open(driveFolderLink, '_blank')}
+              title="Open Google Drive folder"
+            >
+              <FolderOpen className="w-4 h-4" />
+            </Button>
+          </span>
+          <div className="flex items-center gap-2">
+            <Button onClick={toggleSortDirection} variant="outline" size="sm" title={`Sort by date (${sortDirection === 'asc' ? 'oldest first' : 'newest first'})`}>
+              {sortDirection === 'asc' ? '↑ Date' : '↓ Date'}
+            </Button>
+            <Button onClick={refreshFiles} variant="outline" size="sm">
+              Refresh
+            </Button>
+          </div>
         </CardTitle>
         <div className="flex gap-2">
           <Input
@@ -100,9 +137,9 @@ export const GoogleDriveFiles = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {files.map((file) => (
+            {sortedFiles.map((file) => (
               <div
-                key={file.id}
+                key={file.id || `file-${file.name}-${file.modifiedTime}`}
                 className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
               >
                 <div className="flex items-center gap-3 flex-1 min-w-0">
