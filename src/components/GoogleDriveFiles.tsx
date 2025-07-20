@@ -1,178 +1,211 @@
-import { useState, useMemo } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { FileText, Image, Video, Music, Archive, File, Search, ExternalLink, FolderOpen } from 'lucide-react';
-import { useDrive } from '@/contexts/DriveContext';
-import { formatFileSize } from '@/lib/googleDriveService';
+"use client";
+import React, { useState, useMemo } from "react";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  FileText,
+  Image,
+  Video,
+  Music,
+  Archive,
+  File,
+  Search,
+  ExternalLink,
+  FolderOpen,
+  Home
+} from "lucide-react";
+import { useDrive } from "@/contexts/DriveContext";
+import { formatFileSize } from "@/lib/googleDriveService";
+
+import "./GoogleDriveFiles.css";
 
 const getFileIcon = (mimeType: string) => {
-  if (mimeType.includes('image/')) return <Image className="w-5 h-5 text-blue-500" />;
-  if (mimeType.includes('video/')) return <Video className="w-5 h-5 text-purple-500" />;
-  if (mimeType.includes('audio/')) return <Music className="w-5 h-5 text-green-500" />;
-  if (mimeType.includes('zip') || mimeType.includes('rar')) return <Archive className="w-5 h-5 text-orange-500" />;
-  if (mimeType.includes('text/') || mimeType.includes('document')) return <FileText className="w-5 h-5 text-gray-600" />;
-  return <File className="w-5 h-5 text-gray-500" />;
+  if (mimeType.includes("image/"))
+    return <Image className="icon-file image" />;
+  if (mimeType.includes("video/"))
+    return <Video className="icon-file video" />;
+  if (mimeType.includes("audio/"))
+    return <Music className="icon-file audio" />;
+  if (mimeType.includes("zip") || mimeType.includes("rar"))
+    return <Archive className="icon-file archive" />;
+  if (mimeType.includes("text/") || mimeType.includes("document"))
+    return <FileText className="icon-file text" />;
+  return <File className="icon-file generic" />;
 };
 
 const getFileTypeColor = (mimeType: string) => {
-  if (mimeType.includes('image/')) return 'bg-blue-100 text-blue-800';
-  if (mimeType.includes('video/')) return 'bg-purple-100 text-purple-800';
-  if (mimeType.includes('audio/')) return 'bg-green-100 text-green-800';
-  if (mimeType.includes('application/pdf')) return 'bg-red-100 text-red-800';
-  if (mimeType.includes('document') || mimeType.includes('text/')) return 'bg-blue-100 text-blue-800';
-  if (mimeType.includes('spreadsheet')) return 'bg-green-100 text-green-800';
-  return 'bg-gray-100 text-gray-800';
+  if (mimeType.includes("image/")) return "badge image";
+  if (mimeType.includes("video/")) return "badge video";
+  if (mimeType.includes("audio/")) return "badge audio";
+  if (mimeType.includes("application/pdf")) return "badge pdf";
+  if (mimeType.includes("text/") || mimeType.includes("document"))
+    return "badge text";
+  if (mimeType.includes("spreadsheet")) return "badge spreadsheet";
+  return "badge generic";
 };
 
-export const GoogleDriveFiles = () => {
+export const GoogleDriveFiles: React.FC = () => {
   const { files, isLoading, error, refreshFiles, searchFiles } = useDrive();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  
-  // Direct link to the Google Drive folder
-  const driveFolderLink = 'https://drive.google.com/drive/folders/1zXkSacSoBdfbg0hm5ndXSkjyZO5tsqG6';
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const driveFolderLink =
+    "https://drive.google.com/drive/folders/1zXkSacSoBdfbg0hm5ndXSkjyZO5tsqG6";
 
-  // Sort files by modification date
   const sortedFiles = useMemo(() => {
-    if (!files.length) return [];
-    
     return [...files].sort((a, b) => {
-      const dateA = new Date(a.modifiedTime).getTime();
-      const dateB = new Date(b.modifiedTime).getTime();
-      
-      return sortDirection === 'asc' 
-        ? dateA - dateB  // oldest first
-        : dateB - dateA; // newest first
+      const aT = new Date(a.modifiedTime).getTime();
+      const bT = new Date(b.modifiedTime).getTime();
+      return sortDirection === "asc" ? aT - bT : bT - aT;
     });
   }, [files, sortDirection]);
 
-  const handleSearch = async () => {
-    if (searchQuery.trim()) {
-      await searchFiles(searchQuery);
-    } else {
-      await refreshFiles();
-    }
+  const handleSearch = () => {
+    searchQuery.trim() ? searchFiles(searchQuery) : refreshFiles();
   };
 
-  const toggleSortDirection = () => {
-    setSortDirection(prev => prev === 'asc' ? 'desc' : 'asc');
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString();
-  };
-
-  if (isLoading) {
-    return (
-      <Card>
-        <CardContent className="p-6">
-          <div className="flex items-center justify-center">
-            <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
-            Loading Google Drive files...
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
-
-  if (error) {
-    return (
-      <Card>
-        <CardContent className="p-6">
-          <div className="text-red-600">
-            <p>Error: {error}</p>
-            <Button onClick={refreshFiles} className="mt-2">
-              Try Again
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  }
+  const toggleSort = () =>
+    setSortDirection((d) => (d === "asc" ? "desc" : "asc"));
+  const formatDate = (s: string) => new Date(s).toLocaleDateString();
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            📁 Google Drive Files ({files.length})
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => window.open(driveFolderLink, '_blank')}
-              title="Open Google Drive folder"
-            >
-              <FolderOpen className="w-4 h-4" />
-            </Button>
-          </span>
-          <div className="flex items-center gap-2">
-            <Button onClick={toggleSortDirection} variant="outline" size="sm" title={`Sort by date (${sortDirection === 'asc' ? 'oldest first' : 'newest first'})`}>
-              {sortDirection === 'asc' ? '↑ Date' : '↓ Date'}
-            </Button>
-            <Button onClick={refreshFiles} variant="outline" size="sm">
-              Refresh
-            </Button>
-          </div>
-        </CardTitle>
-        <div className="flex gap-2">
-          <Input
-            placeholder="Search files..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="flex-1"
-          />
-          <Button onClick={handleSearch} size="sm">
-            <Search className="w-4 h-4" />
-          </Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {files.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
-            <FileText className="w-12 h-12 mx-auto mb-2 opacity-50" />
-            <p>No files found</p>
-          </div>
-        ) : (
-          <div className="space-y-2">
-            {sortedFiles.map((file) => (
-              <div
-                key={file.id || `file-${file.name}-${file.modifiedTime}`}
-                className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50 transition-colors"
+    <div className="gdrive-bg">
+      <div className="floating-geometry-system">
+        <div className="floating-geometry triangle-1 animate-float-complex-1" />
+        <div className="floating-geometry circle-1 animate-float-complex-2" />
+        <div className="floating-geometry diamond-1 animate-float-complex-3" />
+        <div className="floating-geometry hexagon-1 animate-float-complex-4" />
+      </div>
+      <div className="grid-pattern animate-grid-pulse" />
+      <Card className="gdrive-card professional-card floating-professional-card animate-fade-in-smooth">
+        <CardHeader className="gdrive-sticky-header">
+          <CardTitle>
+            <div className="gdrive-title-bar">
+              <span className="gdrive-title-left">
+                <Home
+                  className="gdrive-btn-home"
+                  role="button"
+                  tabIndex={0}
+                />
+                <span>Google Drive Files</span>
+                <Badge className="gdrive-badge-count">
+                  {files.length}
+                </Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => window.open(driveFolderLink, "_blank")}
+                  title="Open Google Drive Folder"
+                  className="gdrive-btn-folder"
+                >
+                  <FolderOpen />
+                </Button>
+              </span>
+              <span className="gdrive-title-right">
+                <Button
+                  onClick={toggleSort}
+                  variant="outline"
+                  size="sm"
+                  className="professional-button-outline"
+                >
+                  {sortDirection === "asc" ? "↑ Date" : "↓ Date"}
+                </Button>
+                <Button
+                  onClick={refreshFiles}
+                  variant="outline"
+                  size="sm"
+                  className="professional-button-outline"
+                >
+                  Refresh
+                </Button>
+              </span>
+            </div>
+            <div className="gdrive-search-bar">
+              <Input
+                placeholder="Search files…"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+                className="professional-input"
+              />
+              <Button
+                onClick={handleSearch}
+                size="sm"
+                className="professional-button"
               >
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  {getFileIcon(file.mimeType)}
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium truncate">{file.name}</p>
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
-                      <Badge className={`text-xs ${getFileTypeColor(file.mimeType)}`}>
-                        {file.mimeType.split('/').pop()?.toUpperCase() || 'FILE'}
-                      </Badge>
-                      {file.size && <span>{formatFileSize(file.size)}</span>}
-                      <span>Modified: {formatDate(file.modifiedTime)}</span>
+                <Search />
+              </Button>
+            </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="gdrive-content professional-scrollbar">
+          {isLoading ? (
+            <div className="gdrive-loading">
+              <div className="gdrive-spinner" />
+              Loading Google Drive files...
+            </div>
+          ) : error ? (
+            <div className="gdrive-error">
+              <p>Error: {error}</p>
+              <Button onClick={refreshFiles} className="professional-button">
+                Try Again
+              </Button>
+            </div>
+          ) : sortedFiles.length === 0 ? (
+            <div className="gdrive-empty">
+              <FileText className="gdrive-icon-large" />
+              No files found
+            </div>
+          ) : (
+            <div className="gdrive-file-list">
+              {sortedFiles.map((file) => (
+                <div className="gdrive-file-item magnetic" key={file.id}>
+                  <div className="gdrive-info">
+                    {getFileIcon(file.mimeType)}
+                    <div className="gdrive-text-group">
+                      <span className="gdrive-filename professional-text-dark">
+                        {file.name}
+                      </span>
+                      <div className="gdrive-meta">
+                        <Badge className={getFileTypeColor(file.mimeType)}>
+                          {file.mimeType.split("/").pop()?.toUpperCase()}
+                        </Badge>
+                        {file.size && (
+                          <span className="gdrive-meta-size">
+                            {formatFileSize(file.size)}
+                          </span>
+                        )}
+                        <span className="gdrive-meta-modified">
+                          Modified: {formatDate(file.modifiedTime)}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
                   {file.webViewLink && (
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => window.open(file.webViewLink, '_blank')}
+                      onClick={() =>
+                        window.open(file.webViewLink, "_blank")
+                      }
+                      className="professional-button-outline"
                     >
-                      <ExternalLink className="w-4 h-4 mr-1" />
-                      Open
+                      <ExternalLink className="mr-1" /> Open
                     </Button>
                   )}
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 
