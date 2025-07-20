@@ -1,0 +1,179 @@
+:root {
+  /* Core theme colors from screenshot */
+  --dark-surface: #2a2e3a !important;
+  --dark-panel: rgba(21,25,34,0.8);
+  --dark-border: rgba(70,80,95,0.4);
+  --accent-teal: #2dc073;
+  --accent-blue: #3b82f6;
+  --accent-orange: #ff8c42;
+  --neutral-300: #679cd8;
+
+  /* Additional utility */
+  --radius-lg: 1rem;
+  --transition-fast: 0.2s ease-out;
+  --transition-medium: 0.3s ease;
+  --font-base: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+/* Container card wrapper */
+.notion-card {
+  width: 90vw;
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background: var(--dark-surface);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--dark-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+  transition: transform var(--transition-medium), box-shadow var(--transition-medium);
+}
+.notion-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+}
+
+/* Header */
+.notion-card .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.notion-card .header h3 {
+  font-family: var(--font-base);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--neutral-300);
+}
+.notion-card .header button {
+  font-family: var(--font-base);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--accent-teal);
+  background: transparent;
+  border: 1px solid var(--accent-teal);
+  border-radius: 0.6rem;
+  padding: 0.4rem 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: background var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
+}
+.notion-card .header button:hover {
+  background: rgba(45,192,115,0.15);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Scrollable document list */
+.notion-list {
+  display: flex;
+  width: 700px;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  transition: all var(--transition-medium);
+}
+.notion-list::-webkit-scrollbar {
+  width: 6px;
+}
+.notion-list::-webkit-scrollbar-thumb {
+  background: var(--accent-teal);
+  border-radius: 3px;
+}
+.notion-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-blue);
+}
+
+/* List items */
+.notion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--dark-panel);
+  border: 1px solid var(--dark-border);
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+}
+.notion-item:hover {
+  background: rgba(45,192,115,0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+/* Item content */
+.notion-item .info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+.notion-item .info p {
+  margin: 0;
+  font-family: var(--font-base);
+  font-size: 0.88rem;
+  color: var(--neutral-300);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.notion-item .info .subtext {
+  font-size: 0.75rem;
+  color: rgba(103,156,216,0.7);
+}
+
+/* Status icons */
+.notion-item .icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  color: var(--accent-blue);
+  transition: color var(--transition-medium), transform var(--transition-fast);
+}
+.notion-item.processing .icon {
+  color: var(--accent-orange);
+  animation: pulse 1s infinite ease-in-out;
+}
+.notion-item.error .icon {
+  color: #c55858;
+}
+
+/* Badge */
+.notion-item .badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  background: var(--accent-teal);
+  color: #111;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.4rem;
+  flex-shrink: 0;
+  transition: background var(--transition-fast);
+}
+.notion-item .badge:hover {
+  background: var(--accent-blue);
+}
+
+/* Footer stats */
+.notion-footer {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--dark-panel);
+  border-radius: 0.8rem;
+  font-family: var(--font-base);
+  font-size: 0.75rem;
+  color: var(--neutral-300);
+  text-align: right;
+}
+
+/* Pulse animation for processing */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50%      { transform: scale(1.2); opacity: 1; }
+}
