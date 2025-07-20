@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Bot, FileSearch, Users, LogOut, Bell, X, Clock, FileText, FolderOpen, Trash2, Settings, Brain, Sparkles, ChevronRight, TrendingUp, Zap, Database, Network } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/hooks/use-toast";
 import Chat from "@/Chat";
 
 // Advanced Magnetic Cursor Component
@@ -208,7 +209,6 @@ const professionalNotifications = [
     priority: 'low'
   },
   {
-    id: 4,
     type: 'system-update',
     fileName: 'Design System Guidelines synchronized',
     time: '15m ago',
@@ -249,6 +249,11 @@ const Index = () => {
   const handleLogout = async () => {
     try {
       await logout();
+      toast({
+        title: "Logout Successful",
+        description: "You have been logged out.",
+        variant: "default"
+      });
       navigate('/');
     } catch (error) {
       console.error('Logout error:', error);
@@ -517,17 +522,23 @@ const Index = () => {
                     >
                       {user.email}
                     </button>
-                    <Button className="professional-button-outline magnetic">
-                      <LogOut className="w-4 h-4" />
-                      Logout
-                    </Button>
+                        <Button className="professional-button-outline magnetic" onClick={handleLogout}>
+                          <LogOut className="w-4 h-4" />
+                          Logout
+                        </Button>
                   </div>
                 ) : (
                   <>
-                    <Button className="professional-button-outline magnetic">
+                    <Button 
+                      onClick={() => navigate('/signin')}
+                      className="professional-button-outline magnetic"
+                    >
                       Sign In
                     </Button>
-                    <Button className="professional-button-primary magnetic">
+                    <Button 
+                      onClick={() => navigate('/signup')}
+                      className="professional-button-primary magnetic"
+                    >
                       Get Started
                     </Button>
                   </>
