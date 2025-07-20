@@ -1,8 +1,177 @@
-langchain
-langchain-community
-langchain-google-genai
-faiss-cpu
-pypdf
-unstructured
-python-dotenv
-uvicorn
+# ============================================================================
+# DocuBuddy Answer Central - Complete Requirements File
+# ============================================================================
+# This file contains ALL Python dependencies needed for the project
+# Generated for maximum compatibility and zero missing libraries
+# ============================================================================
+
+# ===== CORE WEB FRAMEWORK =====
+fastapi==0.116.1                    # Main web framework for API endpoints
+uvicorn==0.35.0                     # ASGI server for FastAPI
+starlette==0.47.1                   # Core ASGI framework (FastAPI dependency)
+pydantic==2.11.7                    # Data validation and settings management
+pydantic-core==2.33.2              # Core pydantic functionality
+pydantic-settings==2.10.1          # Environment variable management
+
+# ===== HTTP & NETWORKING =====
+httpx==0.28.1                      # Modern HTTP client
+httpcore==1.0.9                    # Core HTTP functionality
+httpx-sse==0.4.1                   # Server-sent events support
+h11==0.16.0                        # HTTP/1.1 protocol implementation
+aiohttp==3.12.14                   # Async HTTP client/server
+aiosignal==1.4.0                   # Async signal support
+aiohappyeyeballs==2.6.1            # Happy Eyeballs for async connections
+requests==2.32.4                   # HTTP library for Python
+urllib3==2.5.0                     # HTTP client library
+certifi==2025.7.14                 # Certificate bundle
+charset-normalizer==3.4.2          # Character encoding detection
+
+# ===== GOOGLE APIS & AUTHENTICATION =====
+google-api-python-client==2.176.0   # Google API client library
+google-auth==2.40.3                # Google authentication library
+google-auth-httplib2==0.2.0        # Google Auth HTTP transport
+google-auth-oauthlib==1.2.2        # Google OAuth2 support
+googleapis-common-protos==1.70.0    # Common protocol buffer definitions
+google-ai-generativelanguage==0.6.18 # Google AI language models
+httplib2==0.22.0                   # HTTP client library for Google APIs
+oauthlib==3.3.1                    # OAuth implementation
+requests-oauthlib==2.0.0           # OAuth for requests library
+
+# ===== LANGCHAIN ECOSYSTEM =====
+langchain==0.3.26                  # Core LangChain framework
+langchain-community==0.3.27        # Community integrations
+langchain-core==0.3.69             # Core LangChain functionality
+langchain-google-genai==2.1.8      # Google Gemini integration
+langchain-text-splitters==0.3.8    # Text splitting utilities
+langsmith==0.4.8                   # LangSmith tracing and monitoring
+
+# ===== VECTOR DATABASE & EMBEDDINGS =====
+faiss-cpu==1.11.0.post1           # Facebook AI Similarity Search (CPU version)
+numpy==2.3.1                       # Numerical computing (required by FAISS)
+
+# ===== DOCUMENT PROCESSING =====
+pypdf==5.8.0                       # PDF processing and extraction
+unstructured==0.18.9               # Unstructured document processing
+unstructured-client==0.39.1        # Client for unstructured API
+python-multipart==0.0.20           # Multipart form data parsing
+aiofiles==0.24.1                   # Async file operations
+
+# ===== EXCEL & OFFICE DOCUMENT SUPPORT =====
+openpyxl==3.1.5                    # Excel file reading/writing
+et_xmlfile==2.0.0                  # XML file handling for Excel
+xlrd==2.0.1                        # Excel file reading (legacy format)
+pandas==2.3.1                      # Data manipulation and analysis
+python-dateutil==2.9.0.post0       # Date parsing utilities
+pytz==2025.2                       # Timezone handling
+tzdata==2025.2                     # Timezone data
+msoffcrypto-tool==5.4.2           # Microsoft Office encryption support
+olefile==0.47                      # OLE file format support
+
+# ===== HTML & XML PROCESSING =====
+beautifulsoup4==4.13.4             # HTML/XML parsing
+lxml==6.0.0                        # Fast XML and HTML processing
+html5lib==1.1                      # HTML5 parser
+soupsieve==2.7                     # CSS selector library
+webencodings==0.5.1                # Web encoding detection
+
+# ===== TEXT PROCESSING & NLP =====
+nltk==3.9.1                        # Natural Language Toolkit
+langdetect==1.0.9                  # Language detection
+regex==2024.11.6                   # Advanced regular expressions
+RapidFuzz==3.13.0                  # Fast string matching
+python-iso639==2025.2.18           # Language code utilities
+
+# ===== ASYNC & CONCURRENCY =====
+anyio==4.9.0                       # Async I/O abstraction layer
+nest-asyncio==1.6.0                # Nested async event loop support
+greenlet==3.2.3                    # Lightweight in-process concurrent programming
+
+# ===== PROGRESS & MONITORING =====
+tqdm==4.67.1                       # Progress bars
+psutil==7.0.0                      # System and process utilities
+
+# ===== DATABASE & ORM =====
+SQLAlchemy==2.0.41                 # SQL toolkit and ORM
+
+# ===== UTILITIES & HELPERS =====
+python-dotenv==1.1.1               # Environment variable loading
+PyYAML==6.0.2                      # YAML parser and emitter
+click==8.2.1                       # Command line interface creation
+colorama==0.4.6                    # Cross-platform colored terminal text
+emoji==2.14.1                      # Emoji processing
+packaging==25.0                    # Core utilities for Python packages
+six==1.17.0                        # Python 2 and 3 compatibility
+tenacity==9.1.2                    # Retry library
+backoff==2.2.1                     # Function decorator for backoff and retry
+cachetools==5.5.2                  # Caching utilities
+joblib==1.5.1                      # Lightweight pipelining
+wrapt==1.17.2                      # Decorator utilities
+
+# ===== SERIALIZATION & DATA FORMATS =====
+orjson==3.11.0                     # Fast JSON library
+jsonpatch==1.33                    # JSON patch operations
+jsonpointer==3.0.0                 # JSON pointer operations
+dataclasses-json==0.6.7            # JSON serialization for dataclasses
+marshmallow==3.26.1                # Object serialization/deserialization
+
+# ===== CRYPTOGRAPHY & SECURITY =====
+cryptography==45.0.5               # Cryptographic recipes and primitives
+pyasn1==0.6.1                      # ASN.1 library
+pyasn1-modules==0.4.2              # ASN.1 modules
+rsa==4.9.1                         # RSA cryptography
+cffi==1.17.1                       # Foreign Function Interface
+
+# ===== NETWORKING & PROTOCOLS =====
+multidict==6.6.3                   # Multidict implementation
+frozenlist==1.7.0                  # Immutable list implementation
+yarl==1.20.1                       # URL parsing library
+uritemplate==4.2.0                 # URI template implementation
+
+# ===== TYPE CHECKING & INTROSPECTION =====
+typing-extensions==4.14.2          # Backported and experimental type hints
+typing-inspect==0.9.0              # Runtime type introspection
+typing-inspection==0.4.1           # Type inspection utilities
+annotated-types==0.7.0             # Reusable constraint types
+mypy-extensions==1.1.0             # Type system extensions
+
+# ===== COMPRESSION & FILE FORMATS =====
+zstandard==0.23.0                  # Zstandard compression algorithm
+
+# ===== GRPC & PROTOCOL BUFFERS =====
+grpcio==1.73.1                     # gRPC Python bindings
+grpcio-status==1.73.1              # gRPC status proto
+proto-plus==1.26.1                 # Protocol Buffers wrapper
+protobuf==6.31.2                   # Protocol Buffers library
+
+# ===== FILE TYPE DETECTION =====
+filetype==1.2.0                    # File type detection
+python-magic==0.4.27               # File type identification
+chardet==5.2.0                     # Character encoding detection
+
+# ===== OFFICE DOCUMENT SUPPORT =====
+python-oxmsg==0.0.2                # Outlook MSG file parsing
+
+# ===== GRAPH & NETWORK ANALYSIS =====
+networkx==3.5                      # Network analysis library
+
+# ===== PARSING & TEXT UTILITIES =====
+pyparsing==3.2.3                   # Text parsing library
+sniffio==1.3.1                     # Async library detection
+
+# ===== ADDITIONAL UTILITIES =====
+attrs==25.3.0                      # Classes without boilerplate
+requests-toolbelt==1.0.0           # Utility belt for requests
+
+# ===== DEVELOPMENT & COMPATIBILITY =====
+# These are included for maximum compatibility across different environments
+setuptools>=65.0.0                 # Package development and installation
+wheel>=0.37.0                      # Built package format
+pip>=22.0.0                        # Package installer
+
+# ============================================================================
+# INSTALLATION NOTES:
+# 1. Install with: pip install -r requirements.txt
+# 2. For GPU support, replace faiss-cpu with faiss-gpu
+# 3. Some packages may require Visual C++ Build Tools on Windows
+# 4. Python 3.8+ required for full compatibility
+# ============================================================================

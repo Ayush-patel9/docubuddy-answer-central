@@ -1,0 +1,75 @@
+# ============================================================================
+# DocuBuddy Answer Central - Production Requirements
+# ============================================================================
+# Optimized for production deployment with specific versions
+# Includes security updates and performance optimizations
+# ============================================================================
+
+# Core web framework - Production optimized
+fastapi==0.116.1
+uvicorn[standard]==0.35.0           # Include optimized dependencies
+gunicorn==23.1.0                    # Production WSGI server
+pydantic==2.11.7
+pydantic-settings==2.10.1
+
+# Google APIs - Production versions
+google-api-python-client==2.176.0
+google-auth==2.40.3
+google-auth-oauthlib==1.2.2
+google-ai-generativelanguage==0.6.18
+
+# LangChain - Stable versions
+langchain==0.3.26
+langchain-community==0.3.27
+langchain-google-genai==2.1.8
+langchain-core==0.3.69
+langsmith==0.4.8
+
+# Vector database - CPU optimized
+faiss-cpu==1.11.0.post1
+
+# Document processing - Production ready
+pypdf==5.8.0
+unstructured==0.18.9
+openpyxl==3.1.5
+pandas==2.3.1
+
+# Security and encryption
+cryptography==45.0.5
+certifi==2025.7.14
+
+# HTTP and networking - Production grade
+httpx==0.28.1
+requests==2.32.4
+aiohttp==3.12.14
+
+# Utilities - Essential only
+python-dotenv==1.1.1
+tqdm==4.67.1
+click==8.2.1
+PyYAML==6.0.2
+
+# Monitoring and logging
+psutil==7.0.0
+
+# Database
+SQLAlchemy==2.0.41
+
+# Serialization
+orjson==3.11.0                     # Fast JSON for production
+
+# Text processing - Core only
+beautifulsoup4==4.13.4
+lxml==6.0.0
+
+# Async support
+anyio==4.9.0
+aiofiles==0.24.1
+
+# ============================================================================
+# Production Deployment Notes:
+# 1. Use with environment-specific configurations
+# 2. Consider using Docker for containerized deployment
+# 3. Set up proper logging and monitoring
+# 4. Configure security headers and HTTPS
+# ============================================================================
