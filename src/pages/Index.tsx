@@ -261,6 +261,16 @@ const Index = () => {
           iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/text/plain',
           createdTime: '2025-07-19T18:05:54.000Z',
           timeAgo: 'Jul 19, 2025'
+        },
+        // Sample Excel file for demonstration
+        {
+          id: 'sample-traindata-excel-id',
+          name: 'traindata.xlsx',
+          mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          webViewLink: 'https://drive.google.com/file/d/sample-traindata-excel-id/view',
+          iconLink: 'https://drive-thirdparty.googleusercontent.com/16/type/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+          createdTime: '2025-07-20T10:00:00.000Z',
+          timeAgo: 'Jul 20, 2025'
         }
       ];
       
