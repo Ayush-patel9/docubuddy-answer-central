@@ -524,11 +524,19 @@ const Index = () => {
                   </div>
                 ) : (
                   <>
-                    <Button className="professional-button-outline magnetic">
-                      Sign In
+                    <Button
+                      onClick={() => navigate('/signup')}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Sign Up
                     </Button>
-                    <Button className="professional-button-primary magnetic">
-                      Get Started
+                    <Button
+                      onClick={() => navigate('/signin')}
+                      variant="outline"
+                      size="sm"
+                    >
+                      Sign In
                     </Button>
                   </>
                 )}
