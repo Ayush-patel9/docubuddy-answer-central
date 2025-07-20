@@ -22,7 +22,10 @@ export class ExcelDataService {
     const worksheet = workbook.Sheets[sheetNames[0]]; // Use first sheet by default
     
     const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-    const headers = jsonData[0] as string[];
+    const rawHeaders = jsonData[0] as any[];
+    const headers = rawHeaders.map((header, index) => 
+      String(header || `Column_${index + 1}`)
+    );
     const data = jsonData.slice(1) as any[][];
     
     return {

@@ -9,6 +9,7 @@ import { Bot, FileSearch, Users, LogOut, Bell, X, Clock, FileText, FolderOpen, T
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "@/hooks/use-toast";
 import Chat from "@/Chat";
+import Footer from "@/components/Footer";
 
 // Advanced Magnetic Cursor Component
 const MagneticCursor = () => {
@@ -782,6 +783,7 @@ const Index = () => {
           </section>
         </StaggeredElements>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -67,14 +67,14 @@ export class GoogleChartsService {
       
       // Step 5: Find target column
       const columnIndex = excelData.headers.findIndex(header =>
-        header.toLowerCase().includes(parseResult.column?.toLowerCase() || '')
+        String(header || '').toLowerCase().includes(parseResult.column?.toLowerCase() || '')
       );
 
       if (columnIndex === -1) {
         return {
           success: false,
           error: `Column '${parseResult.column}' not found in ${targetFile.name}`,
-          suggestions: [`Available columns: ${excelData.headers.join(', ')}`]
+          suggestions: [`Available columns: ${excelData.headers.map(h => String(h || 'Unnamed')).join(', ')}`]
         };
       }
 

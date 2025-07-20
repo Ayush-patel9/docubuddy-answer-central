@@ -13,7 +13,7 @@ const Footer = () => {
                 <Bot className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-white">Fetchly AI</h3>
+                <h3 className="text-lg font-bold text-white">DocuBuddy</h3>
                 <p className="text-xs text-slate-400">ANSWER CENTRAL</p>
               </div>
             </div>
@@ -66,7 +66,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-slate-700/50 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0">
-            © 2025 Fetchly Answer Central. All rights reserved.
+            © 2025 DocuBuddy Answer Central. All rights reserved.
           </p>
           <div className="flex space-x-4 text-xs">
             <span className="text-slate-500">AI-Powered</span>

@@ -165,4 +165,9 @@ async def chat(msg: Message):
         answer = chain.run(input_documents=docs, question=msg.message)
         return {"reply": answer}
     except Exception as e:
-        return {"reply": f"❌ Error: {e}"}
+        return {"reply": f"❌ Error: {str(e)}"}
+
+if __name__ == "__main__":
+    import uvicorn
+    print("🚀 Starting FastAPI server on http://localhost:8000")
+    uvicorn.run(app, host="0.0.0.0", port=8000)
