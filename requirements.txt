@@ -54,7 +54,8 @@ pypdf==5.8.0                       # PDF processing and extraction
 unstructured==0.18.9               # Unstructured document processing
 unstructured-client==0.39.1        # Client for unstructured API
 python-multipart==0.0.20           # Multipart form data parsing
-aiofiles==0.24.1                   # Async file operations
+aiofiles==23.2.1
+                  # Async file operations
 
 # ===== EXCEL & OFFICE DOCUMENT SUPPORT =====
 openpyxl==3.1.5                    # Excel file reading/writing
