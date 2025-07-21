@@ -140,7 +140,7 @@ bun dev
 ![Sign In Page](signin.jpg)
 
 ### 🏠 Landing Page
-![Landing Page](landing page.jpg)
+![Landing Page](landing_page.jpg)
 
 ### � Search / Answering Query
 ![Answering Query](answering_query.jpg)
