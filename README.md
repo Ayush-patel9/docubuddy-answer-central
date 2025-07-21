@@ -392,17 +392,16 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 | **Cost** | 💚 Free/Low | 💸 Expensive | 💛 Moderate |
 | **Mobile Support** | ✅ Full | ❌ Limited | ⚠️ Basic |
 
-### � **Impact Metrics**
+<!-- ### � **Impact Metrics**
 - **95% faster** chart creation compared to Excel
 - **80% reduction** in time-to-insight for business users
 - **100% increase** in data visualization adoption
-- **50% cost savings** compared to enterprise solutions
+- **50% cost savings** compared to enterprise solutions -->
 
-### �️ **Awards & Recognition Potential**
-- 🏆 **Best AI Innovation**
-- 🎨 **Best User Experience**
-- 🚀 **Most Practical Solution**
-- 💡 **People's Choice Award**
+### �️ **Contributors**
+-  **Ayush Patel**
+-  **Pulkit Pandey**
+
 
 ---
 
@@ -414,8 +413,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- **OpenAI** for AI capabilities
-- **Vercel** for hosting platform
+- **Gemini** for AI capabilities
+- **Github** for hosting platform
 - **shadcn/ui** for beautiful components
 - **The React Community** for amazing ecosystem
 
