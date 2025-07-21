@@ -24,7 +24,7 @@ Fletchly.io is an intelligent internal document assistant that eliminates the fr
 <div align="center">
 
 ### 🎬 Demo Video
-*Coming Soon - Live Demo Available Above!*
+*[ Live Demo Available ](https://drive.google.com/file/d/1HmSwUJSNyScXUoDVWPgoPMyeotE6IoMJ/view?usp=sharing)*
 
 </div>
 
@@ -136,14 +136,18 @@ bun dev
 
 <div align="center">
 
+### 🔑 Sign In Page
+![Sign In Page](signin.jpg)
+
 ### 🏠 Landing Page
-![Landing Page](https://via.placeholder.com/800x400/1e293b/ffffff?text=Fletchly.io+Landing+Page)
+![Landing Page](landing page.jpg)
 
-### 📊 Dashboard
-![Dashboard](https://via.placeholder.com/800x400/3b82f6/ffffff?text=AI+Analytics+Dashboard)
+### � Search / Answering Query
+![Answering Query](answering_query.jpg)
 
-### 📈 Chart Generation
-![Chart Generation](https://via.placeholder.com/800x400/8b5cf6/ffffff?text=Smart+Chart+Generation)
+### 📈 Graph Generation
+![Graph 1](graph1.jpg)
+![Graph 2](graph2.jpg)
 
 </div>
 
