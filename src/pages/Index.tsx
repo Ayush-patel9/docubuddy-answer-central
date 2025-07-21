@@ -711,13 +711,18 @@ const Index = () => {
                     </StaggeredElements>
                   ))}
                 </div>
-
                 {/* Enhanced Action Buttons */}
                 <div className="space-y-4">
                   <StaggeredElements delay={1200}>
                     <TiltWrapper intensity={8}>
                       <button
-                        onClick={() => navigate("/notion")}
+                        onClick={() => {
+                          if (user) {
+                            navigate("/notion");
+                          } else {
+                            navigate("/signin");
+                          }
+                        }}
                         className={`professional-button-notion w-full py-4 font-bold tracking-wide rounded-xl transition-all duration-300 hover:scale-105 group magnetic`}
                       >
                         <div className="flex items-center justify-center gap-3 relative z-10">
