@@ -1,4 +1,4 @@
-# 🚀 Fletchly.io - AI-Powered Data Visualization Platform
+# 🚀 Fletchly.io - AI-Powered Internal Document Assistant
 
 <div align="center">
 
@@ -7,9 +7,9 @@
 [![GitHub Stars](https://img.shields.io/github/stars/Ayush-patel9/docubuddy-answer-central?style=for-the-badge&logo=github&color=00ff88)](https://github.com/Ayush-patel9/docubuddy-answer-central)
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-blue?style=for-the-badge)](https://ayush-patel9.github.io/docubuddy-answer-central/)
 [![Tech Stack](https://img.shields.io/badge/⚡_Tech_Stack-React_+_TypeScript-purple?style=for-the-badge)](https://reactjs.org/)
-[![AI Powered](https://img.shields.io/badge/🤖_AI_Powered-Advanced_Analytics-orange?style=for-the-badge)](https://github.com/Ayush-patel9/docubuddy-answer-central)
+[![AI Powered](https://img.shields.io/badge/🤖_AI_Powered-Gemini_Integration-orange?style=for-the-badge)](https://github.com/Ayush-patel9/docubuddy-answer-central)
 
-**Transform your Excel data into beautiful, interactive charts with the power of AI** 📊✨
+**Stop wasting time searching for company docs! Ask your AI assistant and get instant answers** �✨
 
 [🎯 Live Demo](https://ayush-patel9.github.io/docubuddy-answer-central/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🤝 Contributing](#contributing)
 
@@ -19,7 +19,7 @@
 
 ## 🌟 What is Fletchly.io?
 
-Fletchly.io is a revolutionary AI-powered data visualization platform that transforms complex Excel data into stunning, interactive charts and insights. Built for the modern data-driven world, it combines the power of artificial intelligence with intuitive design to make data analysis accessible to everyone.
+Fletchly.io is an intelligent internal document assistant that eliminates the frustration of searching across multiple platforms for company information. Instead of hunting through Notion, Google Docs, Confluence, and Slack channels, employees can simply ask natural language questions and get instant, accurate answers from your team's knowledge base.
 
 <div align="center">
 
@@ -36,17 +36,17 @@ Fletchly.io is a revolutionary AI-powered data visualization platform that trans
 <tr>
 <td width="50%">
 
-### 🤖 **AI-Powered Analytics**
-- Intelligent data pattern recognition
-- Automated chart suggestions
-- Smart data cleaning and preprocessing
-- Natural language queries for data insights
+### 🤖 **AI-Powered Document Search**
+- Natural language question processing
+- Intelligent content extraction from documents
+- Context-aware answer generation
+- Multi-document correlation and insights
 
-### 📊 **Advanced Visualizations**
-- Interactive charts and graphs
-- Real-time data updates
-- Customizable themes and styling
-- Export in multiple formats (PNG, SVG, PDF)
+### � **Smart Document Indexing**
+- Automatic content organization
+- Real-time document processing
+- Metadata extraction and tagging
+- Version control and update tracking
 
 </td>
 <td width="50%">
@@ -54,14 +54,14 @@ Fletchly.io is a revolutionary AI-powered data visualization platform that trans
 ### 🔗 **Seamless Integrations**
 - Google Drive connectivity
 - Notion workspace integration
-- Excel/CSV file support
-- Cloud-based data storage
+- Confluence integration ready
+- Slack bot compatibility
 
 ### 🚀 **Modern Tech Stack**
 - React 18 with TypeScript
+- Google Gemini AI integration
 - Vite for lightning-fast builds
 - Tailwind CSS for responsive design
-- shadcn/ui for beautiful components
 
 </td>
 </tr>
@@ -71,19 +71,21 @@ Fletchly.io is a revolutionary AI-powered data visualization platform that trans
 
 ## 🎯 Problem Statement
 
-In today's data-driven world, businesses and individuals struggle with:
-- **Complex Data Analysis**: Traditional tools require extensive training
-- **Time-Consuming Visualization**: Creating charts manually takes hours
-- **Limited Insights**: Missing hidden patterns in data
-- **Poor Accessibility**: Technical barriers prevent widespread adoption
+**The Internal Documentation Crisis:**
+- **60% of employee time** wasted searching for internal information
+- **Multiple scattered platforms**: Notion, Google Docs, Confluence, Slack
+- **Outdated information**: No single source of truth
+- **New employee onboarding**: Takes weeks to learn where everything is
+- **Lost productivity**: Constant interruptions asking "Where can I find...?"
 
 ## 💡 Our Solution
 
-Fletchly.io addresses these challenges by providing:
-- **AI-Driven Automation**: Instant chart generation from raw data
-- **Intelligent Insights**: AI discovers patterns humans might miss
-- **User-Friendly Interface**: No technical expertise required
-- **Seamless Integration**: Works with existing workflows and tools
+Fletchly.io transforms how teams access internal knowledge:
+- **🔍 Natural Language Search**: Ask questions like "What's our refund policy?" or "How to request design assets?"
+- **📁 Unified Knowledge Base**: Connects all your scattered documents in one searchable platform
+- **🤖 AI-Powered Answers**: Get instant, contextual responses with source references
+- **⚡ Real-time Updates**: Always up-to-date information as documents change
+- **🎯 Smart Suggestions**: Proactive recommendations based on your role and queries
 
 ---
 
@@ -152,19 +154,38 @@ bun dev
 ```
 fletchly-io/
 ├── 🎨 src/
-│   ├── 📱 components/          # Reusable UI components
-│   │   ├── ui/                 # shadcn/ui components
-│   │   ├── charts/             # Chart components
-│   │   └── layout/             # Layout components
-│   ├── 📄 pages/               # Application pages
-│   ├── 🔧 services/            # API and external services
+│   ├── 📱 components/          # UI components for document interaction
+│   │   ├── ui/                 # shadcn/ui component library
+│   │   ├── DocumentStatus.tsx  # Document processing status
+│   │   ├── DriveDocuments.tsx  # Google Drive file browser
+│   │   ├── NotionDocuments.tsx # Notion page viewer
+│   │   └── GoogleDriveAuth.tsx # OAuth authentication
+│   ├── 📄 pages/               # Main application pages
+│   │   ├── LandingPage.tsx     # Marketing homepage
+│   │   ├── DrivePage.tsx       # Google Drive integration
+│   │   ├── NotionPage.tsx      # Notion workspace viewer
+│   │   └── OAuth2Callback.tsx  # Authentication handler
+│   ├── 🔧 services/            # Business logic and API calls
+│   │   ├── googleDriveService.ts # Google Drive API
+│   │   ├── notionService.ts    # Notion API integration
+│   │   └── aiExcelService.ts   # Document processing
+│   ├── 🔄 contexts/            # React state management
+│   │   ├── AuthContext.tsx     # User authentication
+│   │   ├── DriveContext.tsx    # Google Drive state
+│   │   └── NotionContext.tsx   # Notion workspace state
 │   ├── 🎯 hooks/               # Custom React hooks
-│   ├── 📚 lib/                 # Utility functions
-│   └── 🎨 styles/              # Global styles
-├── 📁 public/                  # Static assets
-├── 🐍 server/                  # Backend server
-├── 📋 docs/                    # Documentation
-└── ⚙️ config files             # Configuration
+│   └── 📚 lib/                 # Utilities and configuration
+│       ├── firebase.ts         # Firebase setup
+│       ├── googleAuth.ts       # Google OAuth
+│       └── utils.ts            # Helper functions
+├── 📁 public/                  # Static assets and favicon
+├── 🐍 server/                  # Express.js backend
+│   ├── index.js               # Server entry point
+│   ├── googleDriveService.js  # Drive API routes
+│   └── driveRoutes.js         # API endpoints
+├── 🤖 main.py                  # Python AI processing with Gemini
+├── 📋 docs/                    # Project documentation
+└── ⚙️ config files             # Vite, Tailwind, TypeScript configs
 ```
 
 ---
@@ -172,7 +193,7 @@ fletchly-io/
 ## � Demo Walkthrough
 
 ### 🔥 **Live Interactive Demo**
-Experience Fletchly.io in action! Here's what makes our platform special:
+Experience Fletchly.io in action! See how employees can instantly find answers to their questions:
 
 <div align="center">
 
@@ -182,40 +203,43 @@ Experience Fletchly.io in action! Here's what makes our platform special:
 
 ### 📋 **Step-by-Step Demo Guide**
 
-#### 1. **Data Upload & Import** 📤
+#### 1. **Document Upload & Indexing** 📤
 ```bash
-# Supported formats
-✅ Excel files (.xlsx, .xls)
-✅ CSV files (.csv)
-✅ JSON data (.json)
-✅ Google Sheets integration
-✅ Real-time database connections
+# Supported document formats
+✅ PDF files (.pdf)
+✅ Word documents (.docx, .doc)
+✅ Text files (.txt, .md)
+✅ Google Drive integration
+✅ Notion pages and databases
 ```
 
-#### 2. **AI-Powered Analysis** 🧠
-- **Smart Data Detection**: Automatically identifies data types, headers, and patterns
-- **Quality Assessment**: Detects missing values, outliers, and data inconsistencies
-- **Relationship Discovery**: Finds correlations and trends in your data
-- **Visualization Recommendations**: AI suggests the best chart types for your data
+#### 2. **AI Document Processing** 🧠
+- **Content Extraction**: Automatically extracts text, headings, and structure
+- **Metadata Analysis**: Identifies document type, topics, and key information
+- **Context Understanding**: Maps relationships between different documents
+- **Knowledge Graph**: Builds connections between related information
 
-#### 3. **One-Click Chart Generation** ⚡
+#### 3. **Natural Language Queries** ⚡
 ```typescript
-// Real implementation in our codebase
-const generateChart = async (data: DataSet) => {
-  const analysis = await aiAnalyzer.analyze(data);
-  const chartConfig = await aiSuggester.getBestVisualization(analysis);
-  return await chartRenderer.create(chartConfig);
+// Real implementation with Gemini AI
+const processQuery = async (question: string) => {
+  const context = await documentIndex.findRelevant(question);
+  const response = await geminiAI.generateAnswer(question, context);
+  return await formatter.createResponse(response, sources);
 };
 ```
 
-#### 4. **Interactive Customization** 🎨
-- **Theme Selection**: Dark mode, light mode, custom corporate themes
-- **Color Palettes**: Pre-built palettes or custom color schemes
-- **Animation Effects**: Smooth transitions and engaging micro-interactions
-- **Responsive Design**: Perfect on desktop, tablet, and mobile
+#### 4. **Instant Answers with Sources** �
+- **Contextual Responses**: AI understands the intent behind your question
+- **Source Citations**: Every answer includes links to original documents
+- **Related Suggestions**: Get recommendations for follow-up questions
+- **Confidence Scoring**: Know how reliable each answer is
 
-#### 5. **Advanced Features** 🚀
-- **Real-time Updates**: Charts update automatically as data changes
+#### 5. **Team Collaboration Features** 🚀
+- **Shared Knowledge Base**: Everyone works from the same information
+- **Usage Analytics**: See what questions are asked most frequently
+- **Document Updates**: Automatic re-indexing when files change
+- **Access Controls**: Role-based permissions for sensitive information
 - **Collaborative Editing**: Multiple users can work on the same project
 - **Export Options**: PNG, SVG, PDF, or embed codes for websites
 - **API Integration**: Connect with your existing tools and workflows
@@ -251,24 +275,40 @@ graph TB
 {
   "framework": "React 18.x",
   "language": "TypeScript",
-  "styling": "Tailwind CSS + Framer Motion",
-  "charts": "Chart.js + Custom SVG",
-  "state": "React Query + Context API",
-  "routing": "React Router v6"
+  "styling": "Tailwind CSS + shadcn/ui",
+  "build": "Vite",
+  "state": "React Context API",
+  "routing": "React Router v6",
+  "auth": "Firebase Authentication"
 }
 ```
 
-#### **AI & Analytics Engine**
+#### **Backend & AI Engine**
 ```python
-# AI Model Pipeline (Python Backend)
-data_processor = DataProcessor()
-pattern_analyzer = PatternAnalyzer()
-visualization_ai = VisualizationAI()
+# Google Gemini AI Integration (main.py)
+import google.generativeai as genai
 
-# Process and analyze data
-cleaned_data = data_processor.clean(raw_data)
-patterns = pattern_analyzer.find_patterns(cleaned_data)
-suggestions = visualization_ai.generate_suggestions(patterns)
+# Document processing pipeline
+document_processor = DocumentProcessor()
+context_analyzer = ContextAnalyzer()
+gemini_ai = GeminiAI()
+
+# Natural language query processing
+context = document_processor.extract_relevant(user_query)
+response = gemini_ai.generate_answer(user_query, context)
+formatted_answer = formatter.create_response(response, sources)
+```
+
+#### **Integration Services**
+```javascript
+// Google Drive API integration
+const driveService = google.drive({ version: 'v3', auth });
+const files = await driveService.files.list();
+
+// Notion API integration  
+const notion = new Client({ auth: process.env.NOTION_TOKEN });
+const pages = await notion.databases.query({ database_id });
+```
 ```
 
 #### **Performance Optimizations**
