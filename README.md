@@ -11,7 +11,7 @@
 
 **Stop wasting time searching for company docs! Ask your AI assistant and get instant answers** �✨
 
-[🎯 Live Demo](https://ayush-patel9.github.io/docubuddy-answer-central/) • [📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🤝 Contributing](#contributing)
+[📖 Documentation](#documentation) • [🚀 Quick Start](#quick-start) • [🤝 Contributing](#contributing)
 
 </div>
 
@@ -399,8 +399,10 @@ We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.
 - **50% cost savings** compared to enterprise solutions -->
 
 ### �️ **Contributors**
--  **Ayush Patel**
--  **Pulkit Pandey**
+### �️ **Contributors**
+
+[![GitHub - Ayush Patel](https://img.shields.io/badge/GitHub-Ayush_Patel-181717?style=for-the-badge&logo=github)](https://github.com/Ayush-patel9)
+[![GitHub - Pulkit Pandey](https://img.shields.io/badge/GitHub-Pulkit_Pandey-181717?style=for-the-badge&logo=github)](https://github.com/COolAlien35)
 
 
 ---
@@ -426,9 +428,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ by the Fletchly Team**
 
-[![Follow us](https://img.shields.io/badge/Follow_us-Twitter-1DA1F2?style=for-the-badge&logo=twitter)](https://twitter.com/fletchly_io)
-[![Join Discord](https://img.shields.io/badge/Join_our-Discord-5865F2?style=for-the-badge&logo=discord)](https://discord.gg/fletchly)
-[![Email Us](https://img.shields.io/badge/Email_us-Contact-EA4335?style=for-the-badge&logo=gmail)](mailto:team@fletchly.io)
+[![LinkedIn - Ayush Patel](https://img.shields.io/badge/LinkedIn-Ayush_Patel-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/ayush-patel-72a037316/)
+[![LinkedIn - Pulkit Pandey](https://img.shields.io/badge/LinkedIn-Pulkit_Pandey-0077B5?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/pulkit-pandey-b13076319/)
 
 ---
 
