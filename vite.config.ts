@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: mode === 'production' ? '/docubuddy-answer-central/' : '/',
+  base: mode === 'production' ? '/fletchly-io/' : '/',
   server: {
     host: "::",
     port: 8080,

@@ -28,14 +28,14 @@ const LandingPage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Bot className="h-6 w-6 text-white" />
+                <div className="w-10 h-10 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/25 bg-slate-900">
+                  <img src="/fb819e7a-d57c-49b2-87ed-ba96c3164a3a.webp" alt="Fletchly Logo" className="h-8 w-8 object-contain" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full animate-pulse"></div>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">DocuBuddy</h1>
-                <p className="text-xs text-slate-400">ANSWER CENTRAL</p>
+                <h1 className="text-xl font-bold text-white">Fletchly.io</h1>
+                <p className="text-xs text-slate-400 tracking-wider">AI DATA PLATFORM</p>
               </div>
             </div>
             
@@ -252,16 +252,16 @@ const LandingPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                  <Bot className="h-5 w-5 text-white" />
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 via-purple-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/25">
+                  <img src="/robot-logo.svg" alt="Fletchly AI Robot" className="h-5 w-5" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">DocuBuddy</h3>
-                  <p className="text-xs text-slate-400">ANSWER CENTRAL</p>
+                  <h3 className="text-lg font-bold text-white">Fletchly.io</h3>
+                  <p className="text-xs text-slate-400 tracking-wider">AI DATA PLATFORM</p>
                 </div>
               </div>
               <p className="text-slate-400 text-sm">
-                Fighting misinformation with AI-powered fact-checking and data visualization.
+                Transform your Excel data into beautiful charts with AI-powered analysis and visualization tools.
               </p>
             </div>
             
@@ -302,7 +302,7 @@ const LandingPage = () => {
           
           <div className="border-t border-slate-700/50 mt-12 pt-8 text-center">
             <p className="text-slate-400 text-sm">
-              © 2025 DocuBuddy Answer Central. All rights reserved.
+              © 2025 Fletchly.io - AI Data Platform. All rights reserved.
             </p>
           </div>
         </div>

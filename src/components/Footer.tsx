@@ -66,7 +66,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-slate-700/50 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-slate-400 text-sm mb-4 md:mb-0">
-            © 2025 Fetchly Answer Central. All rights reserved.
+            © 2025 Fletchly.io - AI Data Platform. All rights reserved.
           </p>
           <div className="flex space-x-4 text-xs">
             <span className="text-slate-500">AI-Powered</span>

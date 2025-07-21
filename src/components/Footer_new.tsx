@@ -1,4 +1,17 @@
-import React from 'react';
+import Re          <div>
+            <div className="flex items-center space-x-3 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-500 via-purple-600 to-cyan-500 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/25">
+                <img src="/robot-logo.svg" alt="Fletchly AI Robot" className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-white">Fletchly.io</h3>
+                <p className="text-xs text-slate-400 tracking-wider">AI DATA PLATFORM</p>
+              </div>
+            </div>
+            <p className="text-slate-400 text-sm">
+              Transform your Excel data into beautiful charts with AI-powered analysis and visualization tools.
+            </p>
+          </div>t';
 import { Bot } from 'lucide-react';
 
 const Footer = () => {
